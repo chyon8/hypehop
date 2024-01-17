@@ -45,23 +45,10 @@
                                 {{#each song}}
                                     <tr>
                                     
-                                        <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}} ({{runningtime}})</td>
+                                        <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}}</td>
                                         
                                         
-                                    <!--
-                                        <td>
-                                            <button class="toggleLyrics" onclick="toggleLyrics('lyric{{@index}}{{@../index}}')">
-                                                <i style="margin: auto;" class="far fa-file"></i>
-                                            </button>
-                                            <div id="lyric{{@index}}{{@../index}}" style="display: none;">
-                                                {{#if lyric.[0]}}
-                                                    <p>{{lyric}}</p>
-                                                {{else}}
-                                                    <p>No lyrics available.</p>
-                                                {{/if}}
-                                            </div>
-                                        </td>
-                                        -->
+                                   
 
 
                                         <td>
