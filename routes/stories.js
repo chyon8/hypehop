@@ -263,7 +263,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
       res.redirect('/stories')
     } else {
       await Story.remove({ _id: req.params.id })
-      res.redirect('/dashboard')
+      res.redirect(req.get('referer'));
     }
   } catch (err) {
     console.error(err)
