@@ -1,0 +1,372 @@
+
+
+
+
+{{#with albumData.rss.channel.[0]}}
+    <ul>
+        {{#each item}}
+            <li>
+                <img src="{{thumnail}}" alt="">
+                <div id="title">
+                    <h3>{{ title.[0] }}</h3>
+                  
+                </div>
+
+                {{#ifEqual ../../albumRatingAverage 'NaN'}}
+                 <p>앨범 평점: 평점이 없습니다.</p>
+                 {{else}}
+                  <p>앨범 평점: {{../../albumRatingAverage}} ({{../../reviews.length}}) </p>
+                {{/ifEqual}}
+
+                
+                
+                <p>Release Date: {{ releasedate.[0] }}</p>
+
+                {{#if description}}
+                    <p>{{{description.[0]}}} ...</p>
+                    <a href="https://www.maniadb.com/album/{{../../id}}" target="_blank">더보기</a>
+                {{else}}
+                    <p>설명이 없습니다.</p>
+                {{/if}}
+
+                {{#if maniadb:tracks}}
+                    <h4>Tracklist:</h4>
+                    {{#each maniadb:tracks.[0].disc}}
+                        <table>
+                            <thead>
+                                <tr>
+                                 
+                                    <th>Disc {{inc @index}} </th>
+                            
+                             
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each song}}
+                                    <tr>
+                                    
+                                        <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}} ({{runningtime}})</td>
+                                        
+                                        
+                                    <!--
+                                        <td>
+                                            <button class="toggleLyrics" onclick="toggleLyrics('lyric{{@index}}{{@../index}}')">
+                                                <i style="margin: auto;" class="far fa-file"></i>
+                                            </button>
+                                            <div id="lyric{{@index}}{{@../index}}" style="display: none;">
+                                                {{#if lyric.[0]}}
+                                                    <p>{{lyric}}</p>
+                                                {{else}}
+                                                    <p>No lyrics available.</p>
+                                                {{/if}}
+                                            </div>
+                                        </td>
+                                        -->
+
+
+                                        <td>
+                                            <div class="average-rating">
+                                                {{#each ../../../../storedAverageArr}}
+                                                    {{#ifEqual key (inc @../../index)}}
+
+                                                        {{#if (lookup this.values @../index)}}
+                                                        <p> {{lookup this.values @../index}}</p>
+                                                        {{else}}
+                                                        <p>  - </p>
+                                                        {{/if}}
+
+                                                    {{/ifEqual}}
+                                                {{/each}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{/each}}
+                {{else}}
+                    <p>No tracklist available.</p>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+{{/with}}
+
+
+
+
+
+{{#contains reviewUser loggedInUser}}
+이미 작성한 리뷰가 있습니다.
+{{else}}
+<button id="showTextareaBtn" class="button-outline black" onclick="toggleTextarea()">리뷰 작성하기</button>
+{{/contains}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<button id="showTextareaBtn" class="button-outline black" onclick="toggleTextarea()">리뷰 작성하기</button>
+-->
+
+
+
+
+    
+
+    <div class="row" id="textarea-container" style="display: none;">
+    <form action="/album/review" method="POST" class="col s12" onsubmit="return prepareForm()">
+        
+
+            <div class="row" id="album-rating" style="display: inline-table;">
+            <h5>앨범 평점:</h5>
+
+    <fieldset class="rate">
+        <input type="hidden" id="albumRating" name="albumRating" value="0" required>
+
+    <input onclick="rate(5)" type="radio" id="rating10a" name="rating" value="10" /><label for="rating10a" title="5 stars"></label>
+    <input onclick="rate(4.5)" type="radio" id="rating9a" name="rating" value="9" /><label class="half" for="rating9a" title="4 1/2 stars"></label>
+    <input onclick="rate(4)" type="radio" id="rating8a" name="rating" value="8" /><label for="rating8a" title="4 stars"></label>
+    <input onclick="rate(3.5)" type="radio" id="rating7a" name="rating" value="7" /><label class="half" for="rating7a" title="3 1/2 stars"></label>
+    <input onclick="rate(3)" type="radio" id="rating6a" name="rating" value="6" /><label for="rating6a" title="3 stars"></label>
+    <input onclick="rate(2.5)" type="radio" id="rating5a" name="rating" value="5" /><label class="half" for="rating5a" title="2 1/2 stars"></label>
+    <input onclick="rate(2)" type="radio" id="rating4a" name="rating" value="4" /><label for="rating4a" title="2 stars"></label>
+    <input onclick="rate(1.5)" type="radio" id="rating3a" name="rating" value="3" /><label class="half" for="rating3a" title="1 1/2 stars"></label>
+    <input onclick="rate(1)" type="radio" id="rating2a" name="rating" value="2" /><label for="rating2a" title="1 star"></label>
+    <input onclick="rate(0.5)" type="radio" id="rating1a" name="rating" value="1" /><label class="half" for="rating1a" title="1/2 star"></label>
+</fieldset>
+ </div>
+
+
+
+<h5>트랙별 평점</h5>
+
+<button id="showtrackrateareaBtn" onclick="toggleTrackRate()">트랙리스트 열기</button>
+
+<div id="tracks-rate" style="display: none;" >
+<!---                                       트랙리스팅                                       --->
+
+
+{{#with albumData.rss.channel.[0]}}
+    {{#each item}}
+        {{#if maniadb:tracks}}
+            <div class="row" id="track-rating">
+                <h4>Track Ratings</h4>
+                <table class="striped">
+                   
+                   
+                        {{#each maniadb:tracks.[0].disc}}
+                         <thead>
+                        <tr>
+
+                            <th>Disc{{inc @index}} </th>
+                       
+           
+                        </tr>
+                    </thead>
+                         <tbody>
+                            {{#each song}}
+                                <tr>
+                                   
+                                    <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}}</td>
+                                  
+                                    <td>
+                                        <fieldset class="track-rate" id="track{{inc @index}}disc{{@../index}}">
+                                            <input type="hidden" name="discNumber" value="{{inc @../index}}">
+                                            <input type="hidden" name="trackTitle" value="disc{{@../index}}-{{inc @index}}.{{title.[0]}}">
+                                            <input type="hidden" id="trackRating" name="trackRating">
+                                            <!-- Add your rating input fields here -->
+                                                <input onclick="rateTrack(5, 'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating10b{{inc @index}}disc{{@../index}}" name="rating" value="10" /><label for="rating10b{{inc @index}}disc{{@../index}}" title="5 stars"></label>
+    <input onclick="rateTrack(4.5,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating9b{{inc @index}}disc{{@../index}}" name="rating" value="9" /><label class="half" for="rating9b{{inc @index}}disc{{@../index}}" title="4 1/2 stars"></label>
+    <input onclick="rateTrack(4, 'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating8b{{inc @index}}disc{{@../index}}" name="rating" value="8" /><label for="rating8b{{inc @index}}disc{{@../index}}" title="4 stars"></label>
+    <input onclick="rateTrack(3.5, 'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating7b{{inc @index}}disc{{@../index}}" name="rating" value="7" /><label class="half" for="rating7b{{inc @index}}disc{{@../index}}" title="3 1/2 stars"></label>
+    <input onclick="rateTrack(3,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating6b{{inc @index}}disc{{@../index}}" name="rating" value="6" /><label for="rating6b{{inc @index}}disc{{@../index}}" title="3 stars"></label>
+    <input onclick="rateTrack(2.5,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating5b{{inc @index}}disc{{@../index}}" name="rating" value="5" /><label class="half" for="rating5b{{inc @index}}disc{{@../index}}" title="2 1/2 stars"></label>
+    <input onclick="rateTrack(2,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating4b{{inc @index}}disc{{@../index}}" name="rating" value="4" /><label for="rating4b{{inc @index}}disc{{@../index}}" title="2 stars"></label>
+    <input onclick="rateTrack(1.5,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating3b{{inc @index}}disc{{@../index}}" name="rating" value="3" /><label class="half" for="rating3b{{inc @index}}disc{{@../index}}" title="1 1/2 stars"></label>
+    <input onclick="rateTrack(1,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating2b{{inc @index}}disc{{@../index}}" name="rating" value="2" /><label for="rating2b{{inc @index}}disc{{@../index}}" title="1 star"></label>
+    <input onclick="rateTrack(0.5,'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating1b{{inc @index}}disc{{@../index}}" name="rating" value="1" /><label class="half" for="rating1b{{inc @index}}disc{{@../index}}" title="1/2 star"></label>
+
+                                            <!-- ... -->
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
+    {{/each}}
+{{/with}}
+
+
+
+
+
+
+
+</div>
+
+<!---                                       트랙리스팅                                       --->
+
+       
+        
+        
+        
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title" required>
+                <label for="title">한줄평</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    <option value="public" selected>공개</option>
+                    <option value="private">비공개</option>
+                </select>
+                <label for="status">공개 여부</label>
+            </div>
+        </div>
+
+{{#with albumData.rss.channel.[0]}}
+
+{{#each item}}
+
+
+
+    <!-- New Fields (hidden) -->
+
+    <input type="hidden" id="albumTitle" name="albumTitle" value="">
+     <input type="hidden" id="albumReleaseDate" name="albumReleaseDate" value=" {{releasedate.[0]}}">
+  
+
+    <input type="hidden" id="albumId" name="albumId" value={{../../id}}>
+    <input type="hidden" id="thumbnail" name="thumbnail" value={{thumnail}}>
+    
+    <!-- End New Fields -->
+             
+          
+  {{/each}}
+
+  {{/with}}  
+                     
+
+
+    
+
+
+
+        <div class="row">
+            <div class="input-field">
+                <h5>리뷰 작성하기:</h5>
+
+
+ <div id="editor"></div>
+             <input type="hidden" id="body" name="body" required>
+       
+          
+
+
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <input type="submit" value="Save" class="button-outline black">
+              <button class="button-outline" onclick="cancelTextarea()">Cancel</button>
+            
+        
+
+        </div>
+
+    </form>
+  
+
+  
+
+</div>
+
+
+
+
+<div class="review-section">
+    <h5>작성된 리뷰 : {{reviews.length}} 개</h5>
+
+{{#each reviews}}
+ 
+  <div class="reviews-body">
+ 
+   <div class="chip-chip">
+        <img src="{{this.user.image}}" alt="">
+         <a  style="color: black;" href="/stories/user/{{this.user._id}}"> {{this.user.displayName}}</a>
+    </div>
+
+
+<a href="/album/review/{{this._id}}">
+
+
+    <div class="reviews">
+
+<div class="reviews-container">
+<p style="font-weight: bold;"> 한줄 평:</p> 
+<p> {{{this.title}}}</p>
+ <!-- <p>앨범 평: {{{this.body}}}</p> -->
+</div>
+
+
+<div class="reviews-container">
+ <p style="font-weight: bold;">평점: </p> 
+<p> {{albumRating}}</p>
+</div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+</a>
+
+
+</div>
+
+                 
+
+{{/each}}
+
+</div>
+
+
+
+
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+<script src="/show.js">
+   
+</script>

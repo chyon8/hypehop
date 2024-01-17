@@ -1,0 +1,212 @@
+
+<div class="row">
+ 
+    </div> 
+  
+      <div class="show">
+ <div class="chip">
+                 <img src="{{review.user.image}}" alt="">
+               
+                    <a style="color: black;" href="/stories/user/{{review.user._id}}">{{review.user.displayName}}</a>
+                    <p> {{dateDifference review.createdAt now}}</p>
+             
+                   
+</div>    
+
+
+
+        <div id="{{id}}" class="card-content">
+           
+
+ 
+                <p class="card-title" style="text-align: left;">{{review.title}}</p>
+                       
+             
+   
+   <ul>
+            <li><p>앨범 평점: {{review.albumRating}} </p> </li> 
+ <br>
+            <p>트랙별 평점</p>
+             <table class="striped">
+            
+     {{#each review.tracks}}
+             
+       <thead><tr>
+       <th>Disc {{inc @index}} </th>
+       </tr></thead>
+
+ 
+
+           <tbody>
+          <!--    <h4>Disc: {{this.discNumber}}</h4> -->
+             {{#each this.trackTitle}} 
+        
+               <tr>
+            
+                <td>{{this}}</td>
+                <td> {{#if (lookup ../trackRating @index)}}
+                  
+                  {{lookup ../trackRating @index}}
+
+                  {{else}}
+                  -
+            
+                  {{/if}}                 
+                  </td>
+            
+        
+  </tr>       
+           
+             {{/each}}
+      </tbody>
+
+
+               {{/each}}   <!-- review.tracks -->
+
+</table>
+
+ 	<div class="separator-card"></div>
+  <br><br>
+<p style="font-weight: bold;">앨범 평</p>  
+             <li> 
+            
+                <div class="content-body-show" >{{{ review.body }}}</div> 
+            
+                 </li>
+                
+
+    <div class="reviewedAblum">
+    <a href="/album/{{review.albumId}}">
+
+<img  src="{{review.thumbnail}}" alt="">
+<p>{{review.albumTitle}} </p>
+
+
+</a>
+</div>
+
+
+  </ul>         
+
+ <div class="social" style="display: flex;">
+  
+
+     <button class="favorite"><i class="far fa-heart">
+      좋아요
+        {{review.isFavorite.length}}
+
+     </i></button>
+
+
+    <a class="commentBtn" href="/stories/{{_id}}">
+    <button class="comment">
+
+       
+
+       <i class="far fa-comment"> 
+          댓글
+          {{comments.length}}
+
+    
+
+
+              </i>
+    </i></button>
+  </a>
+
+</div>
+
+             
+                       
+ 
+
+        </div>
+
+      <p class="chip" style="position: absolute;" >조회  {{review.view}}</p>   
+
+
+
+
+<!-- Display existing comments -->
+
+
+
+
+  <div class="comment-section">
+ 
+  <h5>댓글</h5>
+  
+{{#each comments}}
+
+<div class="comments">
+
+
+
+     <div class="chip-chip">
+    <img  src="{{this.user.image}}" alt=""> 
+     <a  style="color: black;" href="/stories/user/{{this.user._id}}"> {{this.user.displayName}}</a>
+     {{dateDifference createdAt now}}
+       <form action="/comments/{{this._id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button style="display: contents;" type="submit">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+</div>  
+
+<div class="comment-body">
+<p>{{this.content}} </p> 
+
+
+  
+</div> 
+
+  
+
+</div>
+
+{{/each}}
+  </div>  <!-- col -->
+
+
+
+          <!-- Comment form -->
+    <div class="commentForm">
+
+    <p>댓글 달기</p>
+
+
+   <form id="commentForm">
+  <textarea name="commentContent" rows="4" cols="50"></textarea>
+  <button class="button-outline black" type="submit">Add Comment</button>
+</form>  
+            
+  </div>  
+
+
+
+   </div> <!-- col -->
+</div> <!--row-->
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/reviewShow.js">
+
+
+
+
+
+
+
+
+
+</script>

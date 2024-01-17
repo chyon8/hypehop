@@ -1,0 +1,145 @@
+
+
+
+<div class="row">
+    <form action="/stories" method="POST" class="col s12" onsubmit="prepareForm()">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="add-title" name="title" required>
+                <label for="title">제목</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    <option value="public" selected>Public</option>
+                    <option value="private">Private</option>
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+               
+
+
+               <div class="howTo">
+               <i class="fas fa-info-circle"></i>
+               </div>
+
+               <div id="myModal" class="login-modal">
+
+  <div class="login-modal-content">
+ <span class="close">&times;</span>
+     <p style="font-weight:bold">유튜브 엠베드 방법 </p>
+     <p>1. 에디터의 하단의 Markdown탭 클릭</p> 
+     <p>2. 아이프레임 링크 삽입 </p>
+     <p> 3. WYSIWYG 탭 클릭 </p>
+
+
+  
+
+
+  </div>
+
+            </div>
+
+
+
+
+
+            <div id="editor"></div>
+             <input type="hidden" id="body" name="body" required>
+       
+
+            </div>
+        </div>
+
+
+        
+
+
+
+
+        <div class="row">
+            <input type="submit" value="Save" class="button-outline black">
+            <a href="/dashboard" class="button-outline  ">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+
+ 
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+
+<script>
+
+const howTo = document.querySelector(".howTo")
+const myModal = document.getElementById("myModal")
+const closeModal = document.querySelector(".close")
+
+
+howTo.addEventListener('click',info)
+closeModal.addEventListener('click',closeMyModal)
+
+function closeMyModal(){
+    myModal.style.display="none"
+}
+
+
+function info(){
+  myModal.style.display="block"
+}
+
+
+
+ function prepareForm() {
+        // Get the content of the Toast UI Editor and set it as the value of the hidden input
+        const bodyContent = editor.getHTML();
+        document.getElementById('body').value = bodyContent;
+    }
+
+
+ 
+  const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            usageStatistics: false,
+            
+
+            toolbarItems:[
+        ['heading', 'bold','italic','strike'],
+        ['hr','quote'],      
+        [ 'ul', 'ol','indent', 'outdent'],
+        ['scrollSync'],
+       ],
+                
+              customHTMLRenderer: {
+    htmlBlock: {
+      iframe(node) {
+        return [
+          { type: 'openTag', tagName: 'iframe', outerNewLine: true, attributes: node.attrs },
+          { type: 'html', content: node.childrenHTML },
+          { type: 'closeTag', tagName: 'iframe', outerNewLine: true },
+        ];
+      },
+    }
+  },
+         
+          
+                
+
+        });
+           
+
+
+
+
+</script>
+

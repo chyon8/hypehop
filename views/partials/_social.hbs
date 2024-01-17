@@ -1,0 +1,98 @@
+
+
+
+
+
+
+
+       <br> 
+
+{{#if _id}}   <!-- 인덱스 페이지에 있을때 -->
+
+<div class="social" style="display: flex;">
+
+
+     <button class="favorite"><i class="far fa-heart">
+      좋아요
+        {{isFavorite.length}} 
+
+     </i></button>
+
+
+
+    <a class="commentBtn" href="/stories/{{_id}}" target="_blank">
+    <button class="comment">
+
+       
+
+       <i class="far fa-comment"> 
+          댓글
+
+            {{commentCount}}
+
+
+              </i>
+    </i></button>
+  </a>
+
+{{else}}      <!-- show 페이지에 있을때 -->
+<div class="
+social" style="display: flex;">
+
+     <button class="favorite"><i class="far fa-heart">
+    {{story.isFavorite.length}}
+
+     </i></button>
+
+
+
+
+  <a class="commentBtn">
+    <button class="comment">
+              
+       <i class="far fa-comment">
+              {{comments.length}}
+       </i>
+    
+    </i></button>
+  </a>
+
+
+
+
+
+
+
+{{/if}}
+
+</div>
+
+<script>
+  
+const favoriteBtn = document.getElementsByClassName('favorite')
+
+const cardContent = document.getElementsByClassName('card-content')
+
+
+
+
+
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

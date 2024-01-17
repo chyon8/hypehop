@@ -1,0 +1,375 @@
+
+
+
+
+<h5>Welcome {{name}}</h5>
+
+<div class="tags">
+
+     <a class="switch chip" href="?category=reviews"> 내가 작성한 리뷰</a>
+     <a class="switch chip" href="?category=feed">내가 작성한 글</a>
+     <a class="switch chip" href="?category=social"> 좋아요/댓글</a>
+</div>
+
+
+
+<div id="contentContainer">
+  
+
+
+
+  {{#if category}}
+
+    {{#ifEqual category 'feed'}}
+     
+
+
+{{#if stories}}
+<table class=>
+    <thead>
+        <h5>내 스토리</h5>
+        <tr>
+           
+         
+        </tr>
+    </thead>
+    <tbody>
+        {{#each stories}}
+        <tr>
+            <td><a href="/stories/{{_id}}">{{truncate title 20}}</a></td>
+            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm: a'}}</td>
+            <td><span class="dash-status">{{status}}</span></td>
+            <td class="icons">
+                <a href="/stories/edit/{{_id}}" >
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <form action="/stories/{{_id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" style="display: contents;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+                
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{else}}
+<p>You have not created any stories</p>
+{{/if}}
+
+
+
+
+    {{else ifEqual category 'reviews'}}
+
+
+
+     {{#if reviews}}
+
+   
+       
+   <table>
+        <tr>
+            <!--
+               <p>조회조건</p>
+           <div class="filter">
+             <select style="display: block;">
+      <option value="" disabled selected>조회조건을 선택하세요</option>
+      <option value="1">작성일 순</option>
+      <option value="2">평점 순</option>
+    
+    </select>
+           </div>
+
+-->
+               <h5>내 리뷰</h5>
+        </tr>
+
+     <tbody>
+        {{#each reviews}}
+        <tr>
+            <td class="albumTitleMy"> {{ truncate albumTitle 50 }}  </td>
+            <td class="albumRatingMy">{{albumRating}}</td>
+
+            <td><a href="/album/review/{{_id}}">{{truncate title 20}}</a></td>
+            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm: a'}}</td>
+            <td><span class="dash-status">{{status}}</span></td>
+            <td class="icons">
+                <a href="/album/review/edit/{{_id}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <form action="/album/review/{{_id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" style="display: contents;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+                
+            </td>
+        </tr>
+        {{/each}}
+  
+
+</tbody>
+
+</table>  
+
+<div class="rateAlblums">
+
+<table>
+    <tbody>
+        <tr> <h5>평가한 앨범</h5></tr>
+      
+
+{{#each reviews}}
+       
+        <tr>
+<td><img src="{{thumbnail}}" alt=""></td>
+<td> 
+
+    <a href="/album/{{albumId}}">
+    <p>{{albumTitle}}</p>
+     <p>{{formatDate createdAt 'YYYY MMMM, h:mm: a'}}</p>
+    </a>
+
+ </td>
+<td> {{albumRating}} </td>
+
+
+
+        </tr>
+{{/each}}
+    </tbody>
+</table>
+
+
+</div>  <!--Rated Albums -->
+{{else}}
+<p>작성한 리뷰가 없습니다</p>
+{{/if}}
+
+
+{{else ifEqual category 'social'}}
+<h5>좋아요한 글</h5>
+
+
+{{#if favStories}}
+
+{{#each favStories}}
+
+<ul style="list-style-type:none;">
+<li>
+
+    <a href="stories/{{this._id}}">{{this.title}}</a>
+    <div class="separator-2"></div>
+ 
+</li>
+</ul>
+
+
+
+{{/each}}
+
+
+{{else}}
+좋아요 한 글이 없습니다
+
+{{/if}}
+
+
+<h5>좋아요 표시한 리뷰</h5>
+
+
+{{#if favReviews}}
+
+{{#each favReviews}}
+
+<ul style="list-style-type:none;">
+    <li><a href="album/review/{{this._id}}">{{this.title}}</a></li>
+<div class="separator-2"></div>
+</ul>
+
+
+
+
+
+{{/each}}
+
+
+{{else}}
+좋아요 한 리뷰가 없습니다
+
+{{/if}}
+
+
+
+<h5>내가 단 댓글</h5>
+
+{{#if comments}}
+
+{{#each comments}}
+
+<ul>
+
+<li>
+
+
+{{#if this.story}}
+
+<a href="/stories/{{this.story}}">
+{{this.content}}
+<div class="separator-2"></div>
+</a>
+
+{{else}}
+<a href="/album/review/{{this.review}}">
+{{this.content}}
+<div class="separator-2"></div>
+</a>
+
+
+{{/if}}
+
+</li>
+
+
+</ul>
+{{/each}}
+
+{{else}}
+댓글이 없습니다.
+
+{{/if}}
+
+
+
+
+    {{/ifEqual}}
+
+  {{else}}
+
+
+<!-- default view  -->
+
+
+    {{#if reviews}}
+
+   
+       
+   <table>
+        <tr>
+            <!--
+               <p>조회조건</p>
+           <div class="filter">
+             <select style="display: block;">
+      <option value="" disabled selected>조회조건을 선택하세요</option>
+      <option value="1">작성일 순</option>
+      <option value="2">평점 순</option>
+    
+    </select>
+           </div>
+
+-->
+               <h5>내 리뷰</h5>
+        </tr>
+
+     <tbody>
+        {{#each reviews}}
+        <tr>
+            <td class="albumTitleMy"> {{ truncate albumTitle 50 }}  </td>
+            <td class="albumRatingMy">{{albumRating}}</td>
+
+            <td><a href="/album/review/{{_id}}">{{truncate title 20}}</a></td>
+            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm: a'}}</td>
+            <td><span class="dash-status">{{status}}</span></td>
+            <td class="icons">
+                <a href="/album/review/edit/{{_id}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <form action="/album/review/{{_id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" style="display: contents;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+                
+            </td>
+        </tr>
+        {{/each}}
+  
+
+</tbody>
+
+</table>  
+
+<div class="rateAlblums">
+
+<table>
+    <tbody>
+        <tr> <h5>평가한 앨범</h5></tr>
+      
+
+{{#each reviews}}
+       
+        <tr>
+<td><img src="{{thumbnail}}" alt=""></td>
+<td> 
+
+    <a href="/album/{{albumId}}">
+    <p>{{albumTitle}}</p>
+     <p>{{formatDate createdAt 'YYYY MMMM, h:mm: a'}}</p>
+    </a>
+
+ </td>
+<td> {{albumRating}} </td>
+
+
+
+        </tr>
+{{/each}}
+    </tbody>
+</table>
+
+
+</div>  <!--Rated Albums -->
+{{else}}
+<p>작성한 리뷰가 없습니다</p>
+{{/if}}
+
+
+
+
+
+<!--  default view -->
+
+
+  {{/if}}
+  
+</div>  <!--  content container -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

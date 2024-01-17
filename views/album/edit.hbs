@@ -1,0 +1,146 @@
+
+<div class="row">
+    <form action="/album/review/{{review._id}}" method="POST" class="col s12" onsubmit="prepareForm()">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="add-title" name="title" value="{{review.title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    {{#select review.status}}
+                    <option value="public" selected>Public</option>
+                    <option value="private">Private</option>
+                    {{/select}}
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+
+   <div class="row" id="album-rating" style="display: inline-table;">
+            <h5>앨범 평점:</h5>
+
+    <fieldset class="rate">
+        <input type="hidden" id="albumRating" name="albumRating" value="0" required>
+
+    <input onclick="rate(5)" type="radio" id="rating10a" name="rating" value="10" /><label for="rating10a" title="5 stars"></label>
+    <input onclick="rate(4.5)" type="radio" id="rating9a" name="rating" value="9" /><label class="half" for="rating9a" title="4 1/2 stars"></label>
+    <input onclick="rate(4)" type="radio" id="rating8a" name="rating" value="8" /><label for="rating8a" title="4 stars"></label>
+    <input onclick="rate(3.5)" type="radio" id="rating7a" name="rating" value="7" /><label class="half" for="rating7a" title="3 1/2 stars"></label>
+    <input onclick="rate(3)" type="radio" id="rating6a" name="rating" value="6" /><label for="rating6a" title="3 stars"></label>
+    <input onclick="rate(2.5)" type="radio" id="rating5a" name="rating" value="5" /><label class="half" for="rating5a" title="2 1/2 stars"></label>
+    <input onclick="rate(2)" type="radio" id="rating4a" name="rating" value="4" /><label for="rating4a" title="2 stars"></label>
+    <input onclick="rate(1.5)" type="radio" id="rating3a" name="rating" value="3" /><label class="half" for="rating3a" title="1 1/2 stars"></label>
+    <input onclick="rate(1)" type="radio" id="rating2a" name="rating" value="2" /><label for="rating2a" title="1 star"></label>
+    <input onclick="rate(0.5)" type="radio" id="rating1a" name="rating" value="1" /><label class="half" for="rating1a" title="1/2 star"></label>
+</fieldset>
+ </div>
+
+
+
+
+
+    <div class="row">
+            <div class="input-field">
+            <div id="editor">{{{review.body}}}</div>
+             <input type="hidden" id="body" name="body" required>
+       
+
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+
+
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+<script>
+
+
+
+function rate(stars) {
+    userRating = stars;
+
+    const albumRatingValue=document.getElementById('albumRating')
+    albumRatingValue.value=userRating
+
+
+    
+
+
+    const labels = document.querySelectorAll('.rate label');
+
+ 
+ const index = Array.from(labels).indexOf(event.currentTarget.labels[0]);
+   
+
+    
+
+       // Color the clicked label and labels after it
+    for (let i = labels.length - 1; i >= index; i--) {
+      labels[i].style.color = 'gold';
+    }
+
+    // Remove color from labels before the clicked label
+    for (let i = index - 1; i >= 0; i--) {
+      labels[i].style.color = '';
+    }
+ 
+
+
+
+}
+
+ function prepareForm() {
+        // Get the content of the Toast UI Editor and set it as the value of the hidden input
+        const bodyContent = editor.getHTML();
+        document.getElementById('body').value = bodyContent;
+    }
+
+  const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            usageStatistics: false,
+            
+
+            toolbarItems:[
+        ['heading', 'bold','italic','strike'],
+        ['hr','quote'],      
+        [ 'ul', 'ol','indent', 'outdent'],
+        ['scrollSync'],
+       ],
+                
+              customHTMLRenderer: {
+    htmlBlock: {
+      iframe(node) {
+        return [
+          { type: 'openTag', tagName: 'iframe', outerNewLine: true, attributes: node.attrs },
+          { type: 'html', content: node.childrenHTML },
+          { type: 'closeTag', tagName: 'iframe', outerNewLine: true },
+        ];
+      },
+    }
+  },
+         
+          
+                
+
+        });
+</script>

@@ -1,0 +1,162 @@
+
+
+<div class="row">
+
+
+     
+    </div> 
+
+
+  
+  
+      <div class="show">
+ <div class="chip">
+                 <img src="{{story.user.image}}" alt="">
+                
+                    <a style="color: black;" href="/stories/user/{{userId}}">{{userDisplayName}}</a>
+                    <p> {{dateDifference story.createdAt now}}</p>
+
+              
+                   
+</div>    
+
+        <div id="{{story._id}}" class="card-content">
+
+ 
+                <p class="card-title" style="text-align: left;">{{story.title}}</p>
+                       <div class="content-body-show" >{{{ story.body }}}</div> 
+
+
+                 <br> 
+   
+ 
+
+             
+ <div class="social" style="display: flex;">
+  
+
+     <button class="favorite"><i class="far fa-heart">
+      좋아요
+        {{story.isFavorite.length}}
+
+     </i></button>
+
+
+    <a class="commentBtn" href="/stories/{{_id}}">
+    <button class="comment">
+
+       
+
+       <i class="far fa-comment"> 
+          댓글
+          {{comments.length}}
+
+    
+
+
+              </i>
+    </i></button>
+  </a>
+
+</div>
+
+
+    
+     
+    
+        </div>
+
+
+
+      <p class="chip" style="position: absolute;" >조회 {{story.view}}</p>
+
+
+
+
+
+
+
+<!-- Display existing comments -->
+
+
+
+
+  <div class="comment-section">
+ 
+  <h5>댓글</h5>
+  
+{{#each comments}}
+
+<div class="comments">
+
+
+<!--            
+      <div class="chip">
+    <img  src="{{this.user.image}}" alt=""> 
+     <a  style="color: black;" href="/stories/user/{{this.user._id}}"> </a>
+     {{this.user.displayName}}
+</div>  
+-->
+
+     <div class="chip-chip">
+    <img  src="{{this.user.image}}" alt=""> 
+     <a  style="color: black;" href="/stories/user/{{this.user._id}}"> {{this.user.displayName}}</a>
+     {{dateDifference createdAt now}}
+       <form action="/comments/{{this._id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button style="display: contents;" type="submit">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+</div>  
+
+<div class="comment-body">
+<p>{{this.content}} </p> 
+
+
+  
+</div> 
+
+  
+
+</div>
+
+{{/each}}
+  </div>  <!-- col -->
+
+
+
+          <!-- Comment form -->
+    <div class="commentForm">
+
+    <p>댓글 달기</p>
+
+
+   <form id="commentForm">
+  <textarea name="commentContent" rows="4" cols="50"></textarea>
+  <button class="button-outline black" type="submit">Add Comment</button>
+</form>  
+            
+  </div>  
+
+
+
+   </div> <!-- col -->
+</div> <!--row-->
+
+
+
+
+ 
+
+
+
+
+
+
+
+<script src="/storiesShow.js">
+
+  
+</script>
+

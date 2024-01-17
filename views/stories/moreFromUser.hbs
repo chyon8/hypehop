@@ -1,0 +1,403 @@
+
+<br>
+
+
+
+
+<a class="switch chip" href="/stories/user/{{users}}?category=feed">Feed</a>
+<a class="switch chip" href="/stories/user/{{users}}?category=reviews">Review</a>
+
+
+
+<div class="row" id="row">
+
+
+ <div class="main-container">
+
+    <div class="col s8" >
+
+
+
+
+
+{{#ifEqual category 'feed'}}
+
+      {{#each stories}}
+
+    
+        <div class="card">
+
+             
+            <div class="card-image">
+
+            </div>
+
+
+            <div id="{{_id}}" class="card-content ">
+
+
+<div class="chip">
+                 <img src="{{user.image}}" alt="">
+                
+                    <a style="color: black;" href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    <p> {{dateDifference createdAt now}}</p>
+
+              
+                   
+</div>
+
+ 
+        <a target="_blank" class="content-container" style="color: black;" href="/stories/{{_id}}"> 
+                <p class="card-title" style="text-align: left;">{{title}}</p>
+                       <div class="content-body" >{{{ this.body }}} 
+                        
+                       </div> 
+                          <p class="readMore">더보기</p>
+
+                    
+                 <br> 
+           
+
+</a>
+     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회  {{view}}</p>
+
+             <div class="social" style="display: flex;">
+  
+
+     <button class="favorite"><i class="far fa-heart">
+      좋아요
+        {{isFavorite.length}} 
+
+     </i></button>
+
+
+
+    <a class="commentBtn" href="/stories/{{_id}}" target="_blank">
+    <button class="comment">
+
+       
+
+       <i class="far fa-comment"> 
+          댓글
+
+            {{commentCount}}
+
+
+              </i>
+    </i></button>
+  </a>
+
+  </div>
+
+                       
+             
+            </div>
+
+        
+
+        </div>
+
+
+ 
+
+    {{else}}
+    <p>No stories to display</p>
+
+    {{/each}}
+
+
+
+
+
+ 
+{{else ifEqual category 'reviews' }}
+
+
+<!--                                   리뷰                        -->
+
+
+     {{#each reviews}}
+        <div class="card">
+
+             
+            <div class="card-image">
+         
+            </div>
+
+
+            <div id="{{_id}}" class="card-content ">
+
+
+<div class="chip">
+                 <img src="{{user.image}}" alt="">
+                
+                    <a style="color: black;" href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    <p> {{dateDifference createdAt now}}</p>
+
+              
+                   
+</div>
+
+<div class="reviewedAblum">
+    <a href="/album/{{albumId}}">
+
+<img  src="{{thumbnail}}" alt="">
+<p>{{truncate albumTitle 50}} </p>
+<p> {{albumRating}}</p>
+
+</a>
+</div>
+
+ 
+        <a style="color: black;" href="/album/review/{{_id}}" target="_blank"> 
+                <p class="card-title" style="text-align: left;">{{title}}</p>
+                       <div class="content-body" >{{{ this.body }}}</div> 
+
+                      
+                 <br> 
+
+</a>
+     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회 {{view}}</p>
+
+
+
+ <div class="social" style="display: flex;">
+  
+     <button class="favorite"><i class="far fa-heart">
+      좋아요 {{isFavorite.length}}
+       
+
+     </i></button>
+
+    <a  class="commentBtn" href="/album/review/{{_id}}" target="_blank">
+    <button class="comment">
+
+       
+       <i class="far fa-comment"> 
+          댓글   {{comments.length}}
+    
+
+
+              </i>
+    </i></button>
+  </a>
+
+</div>
+
+                  
+             
+            </div>
+
+        
+
+        </div>
+
+
+ 
+
+    {{else}}
+    <p>No reviews to display</p>
+
+    {{/each}}
+
+
+<!--                                   리뷰    끝                   -->
+
+{{else}}
+
+
+
+
+<!--                                default                     -->
+
+
+ {{#each stories}}
+
+    
+        <div class="card">
+
+             
+            <div class="card-image">
+
+            </div>
+
+
+            <div id="{{_id}}" class="card-content ">
+
+
+<div class="chip">
+                 <img src="{{user.image}}" alt="">
+                
+                    <a style="color: black;" href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    <p> {{dateDifference createdAt now}}</p>
+
+              
+                   
+</div>
+
+ 
+        <a target="_blank" class="content-container" style="color: black;" href="/stories/{{_id}}"> 
+                <p class="card-title" style="text-align: left;">{{title}}</p>
+                       <div class="content-body" >{{{ this.body }}} 
+                        
+                       </div> 
+                          <p class="readMore">더보기</p>
+
+                    
+                 <br> 
+           
+
+</a>
+     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회  {{view}}</p>
+
+             <div class="social" style="display: flex;">
+  
+
+     <button class="favorite"><i class="far fa-heart">
+      좋아요
+        {{isFavorite.length}} 
+
+     </i></button>
+
+
+
+    <a class="commentBtn" href="/stories/{{_id}}" target="_blank">
+    <button class="comment">
+
+       
+
+       <i class="far fa-comment"> 
+          댓글
+
+            {{commentCount}}
+
+
+              </i>
+    </i></button>
+  </a>
+
+  </div>
+
+                       
+             
+            </div>
+
+        
+
+        </div>
+
+
+ 
+
+    {{else}}
+    <p>No stories to display</p>
+
+    {{/each}}
+
+
+
+
+<!--                               default  끝                   -->
+
+
+
+
+
+{{/ifEqual}}
+
+
+
+
+
+
+
+
+   </div>  <!--  col s8 -->
+
+
+
+
+
+
+
+<div class="col s4 side">
+
+     <div class="tip card">
+    
+      <div class="card-side">
+        <p class="card-title"> 💡 Tips</p>
+        <p class="popular chip">앨범에 대한 이야기를 공유해보세요.</p>
+        <p class="popular chip"> 게시글에 앨범을 태그하실 수 있어요.</p>
+        <p class="popular chip">앨범 별로 게시글을 조회하실 수 있어요.</p>
+        <p class="popular chip">앨범리뷰 탭에서 앨범 리뷰들을 해보세요.</p>
+       
+
+      </div>
+    </div>
+
+    <div class="popular card">
+   
+      <div class="card-side"  >
+          <p class="card-title">🔥 인기 포스트</p>
+
+     
+          <p class="popular chip">오늘의 인기 게시물</p>
+         {{#each storiesRank}}
+       
+       <div class="popular-posts" style="display: flex;"  >
+                
+                    <p> {{inc @index}}.</p> 
+                    <a style="color: black;" href="/stories//{{_id}}" target="_blank">
+                   <p  style="text-align: left;">{{title}}</p>
+      
+                    </a>
+                 
+
+        
+                  
+        </div>
+          {{/each}}
+
+      </div>
+    </div>  <!--popular card -->
+
+     
+
+
+
+
+  </div>  <!--col s4-->
+
+
+
+
+</div>  <!-- main container --> 
+
+</div>  <!--row --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/moreFromUser.js">
+
+
+
+
+
+
+
+</script>

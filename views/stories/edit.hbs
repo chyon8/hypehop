@@ -1,0 +1,98 @@
+
+<div class="row">
+    <form action="/stories/{{story._id}}" method="POST" class="col s12" onsubmit="prepareForm()">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="add-title" name="title" value="{{story.title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    {{#select story.status}}
+                    <option value="public" selected>Public</option>
+                    <option value="private">Private</option>
+                    {{/select}}
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+
+<!--
+
+        <div class="row">
+            <div class="input-field">
+                <textarea id="body" name="body">{{story.body}}</textarea>
+            </div>
+        </div>
+-->
+
+
+    <div class="row">
+            <div class="input-field">
+            <div id="editor">{{{story.body}}}</div>
+             <input type="hidden" id="body" name="body" required>
+       
+
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+
+
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+<script>
+
+ function prepareForm() {
+        // Get the content of the Toast UI Editor and set it as the value of the hidden input
+        const bodyContent = editor.getHTML();
+        document.getElementById('body').value = bodyContent;
+    }
+
+  const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            usageStatistics: false,
+            
+
+            toolbarItems:[
+        ['heading', 'bold','italic','strike'],
+        ['hr','quote'],      
+        [ 'ul', 'ol','indent', 'outdent'],
+        ['scrollSync'],
+       ],
+                
+              customHTMLRenderer: {
+    htmlBlock: {
+      iframe(node) {
+        return [
+          { type: 'openTag', tagName: 'iframe', outerNewLine: true, attributes: node.attrs },
+          { type: 'html', content: node.childrenHTML },
+          { type: 'closeTag', tagName: 'iframe', outerNewLine: true },
+        ];
+      },
+    }
+  },
+         
+          
+                
+
+        });
+</script>

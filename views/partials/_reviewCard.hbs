@@ -1,0 +1,154 @@
+     {{#each reviews}}
+        <div class="card">
+
+             
+            <div class="card-image">
+      
+            </div>
+
+
+            <div id="{{_id}}" class="card-content ">
+
+
+<div class="chip">
+                 <img src="{{user.image}}" alt="">
+                
+                    <a style="color: black;" href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    <p> {{dateDifference createdAt now}}</p>
+
+              
+                   
+</div>
+
+<div class="reviewedAblum">
+    <a href="/album/{{albumId}}">
+
+<img  src="{{thumbnail}}" alt="">
+<p>{{truncate albumTitle 50}} </p>
+<p> {{albumRating}}</p>
+
+</a>
+</div>
+
+ 
+        <a style="color: black;" href="/album/review/{{_id}}" target="_blank"> 
+                <p class="card-title" style="text-align: left;">{{title}}</p>
+                       <div class="content-body" >{{{ this.body }}}</div> 
+
+                       <!--  <div class="content-body" >{{{truncate this.body 100}}}</div>   -->
+                 <br> 
+               <!-- <p style="text-align: left;">{{stripTags (truncate body 150)}}</p>  -->
+       
+       <!--
+               <div class="card-action center-align">
+         
+                <a href="/stories/{{_id}}" class="btn black">Read More</a>
+                   
+            </div>
+       -->
+
+</a>
+     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회 {{view}}</p>
+
+
+
+ <div class="social" style="display: flex;">
+
+
+{{#if ../user}}
+  
+     <button class="favorite"><i class="far fa-heart">
+      좋아요 {{isFavorite.length}}
+       
+
+     </i></button>
+
+
+{{else}}
+
+   <a class="toLogin" href="/dashboard"><i class="far fa-heart">
+      좋아요 {{isFavorite.length}}
+       
+
+     </i></a>
+
+{{/if}}
+
+
+
+    <a  class="commentBtn" href="/album/review/{{_id}}" target="_blank">
+    <button class="comment">
+
+       
+       <i class="far fa-comment"> 
+          댓글   {{comments.length}}
+    
+
+
+              </i>
+    </i></button>
+  </a>
+
+</div>
+
+
+
+                       
+             
+            </div>
+
+        
+
+        </div>
+
+
+ 
+
+    {{else}}
+    <p>No reviews to display</p>
+
+    {{/each}}
+
+
+ {{#if user}}
+    <div id="load-more-container"></div>
+  <p id="load-more-btn">Loading..</p>
+
+{{else}}
+
+<div id="myModal" class="login-modal">
+
+  <div class="login-modal-content">
+  
+     <p>로그인하고 더 많은 글을 읽어보세요!</p>
+
+    {{> _login_btn}}
+  
+
+
+  </div>
+
+</div>
+
+
+
+{{/if}}
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/reviewCard.js">
+
+
+
+</script>

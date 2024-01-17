@@ -1,0 +1,92 @@
+{{> _add_btn}}
+<br>
+
+       {{> feedSwtich}}
+
+
+<div class="row" id="row">
+
+
+ <div class="main-container">
+
+
+
+<div class="col s4 side">
+
+     <div class="tip card">
+    
+      <div class="card-side">
+    {{> _tips}}
+       
+
+      </div>
+    </div>
+
+    <div class="popular card">
+   
+      <div class="card-side"  >
+          <p class="card-title">🔥 인기 포스트</p>
+
+     
+          <p class="popular chip">이번주 인기 게시물</p>
+         {{#each storiesRank}}
+       
+       <div class="popular-posts" style="display: flex;"  >
+                
+                    <p> {{inc @index}}.</p> 
+                    <a style="color: black;" href="/stories/{{_id}}" target="_blank">
+                   <p  style="text-align: left;">{{title}}</p>
+      
+                    </a>
+                 
+
+        
+                  
+        </div>
+          {{/each}}
+
+      </div>
+    </div>  <!--popular card -->
+
+     
+
+
+
+
+  </div>  <!--col s4-->
+
+
+    <div class="col s8" >
+     
+
+
+{{> _storyCard}}
+
+
+
+
+   </div>
+
+
+</div>  <!-- main container --> 
+
+</div>  <!--row --> 
+
+
+
+
+
+
+
+
+
+
+
+<script src="/storiesIndex.js">
+
+
+
+
+
+
+</script>
