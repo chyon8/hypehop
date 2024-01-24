@@ -329,8 +329,10 @@ router.post('/search' ,async (req, res) => {
 
 
   try {
+   
     const searchData = await fetchData(searchUrl);
     res.json(searchData);
+  
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -428,9 +430,9 @@ let average = [];
       const searchDataXml = await fetchData(searchUrl);
       const searchData = await parseXml(searchDataXml);
       const reviewUser = reviews.map(item => item.user._id.toString());
+     const albumTitleFromApi=searchData.rss.channel[0].item[0].title[0]
 
-
-      const albumTitleParts = reviews[0].albumTitle.split('-').map(part => part.trim())
+      const albumTitleParts = albumTitleFromApi.split('-').map(part => part.trim())
       const concatenatedTitle = albumTitleParts.join(',');
       const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
 
@@ -443,10 +445,10 @@ let average = [];
         storedAverageArr,
         reviewUser,
 
-        pageTitle: reviews[0].albumTitle,
-        pageDescription: reviews[0].albumTitle.trim(),
+        pageTitle: albumTitleFromApi,
+        pageDescription: albumTitleFromApi,
         pageKeywords:pageKeyword
-   
+ 
        });
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
