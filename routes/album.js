@@ -151,6 +151,9 @@ let top5Albums = uniqueAlbumsArrayChart.slice(0, 10)
       uniqueAlbumsArray,
       top5Albums,
       sort,
+      pageTitle: '하입합 | hype-hop - 앨범 차트, 앨범 평점',
+      pageDescription: '앨범 리뷰 평점 커뮤니티',
+      pageKeywords:"하입합, hypehop, 앨범 리뷰, 힙합, 음악, 차트, 앨범 차트, 힙합 차트, 앨범, 앨범 평점"
       
     })
   } catch (err) {
@@ -222,8 +225,10 @@ router.get('/review', async (req, res) => {
     res.render('album/review', {
       user:req.user,
       reviewsRank,
- 
       reviews,
+      pageTitle: '하입합 | hype-hop - 리뷰 피드',
+      pageDescription: '앨범 리뷰 평점 커뮤니티',
+      pageKeywords:"하입합, hypehop, 앨범 리뷰, 힙합, 음악, 차트, 앨범 차트, 힙합 차트, 앨범, 앨범 평점"
     })
   } catch (err) {
     console.error(err)
@@ -275,12 +280,22 @@ router.get('/review/:id', ensureAuth, async (req, res) => {
         runValidators: true,
       }
     );
+
+    const pageKey = review.albumTitle.trim()
+    const albumTitleParts = review.albumTitle.split('-').map(part => part.trim())
+    const concatenatedTitle = albumTitleParts.join(',');
+    const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
+
+
+ 
       res.render('album/reviewShow', {
        
         id:req.params.id,
         comments,
-
         review,
+        pageTitle: review.title,
+        pageDescription: review.albumTitle.trim(),
+        pageKeywords:pageKeyword
       })
     
   } catch (err) {
@@ -415,7 +430,9 @@ let average = [];
       const reviewUser = reviews.map(item => item.user._id.toString());
 
 
-
+      const albumTitleParts = reviews[0].albumTitle.split('-').map(part => part.trim())
+      const concatenatedTitle = albumTitleParts.join(',');
+      const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
 
       res.render('album/show', { 
         loggedInUser:req.user.id,
@@ -425,6 +442,10 @@ let average = [];
         reviews,
         storedAverageArr,
         reviewUser,
+
+        pageTitle: reviews[0].albumTitle,
+        pageDescription: reviews[0].albumTitle.trim(),
+        pageKeywords:pageKeyword
    
        });
     } catch (error) {

@@ -54,7 +54,11 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
     
       favStories,
       favReviews,
-      category
+      category,
+      pageTitle: '하입합 | hype-hop',
+      pageDescription: '앨범 리뷰 평점 커뮤니티',
+      pageKeywords:"하입합, hypehop, 앨범 리뷰, 힙합, 음악, 차트, 앨범 차트, 힙합 차트, 앨범, 앨범 평점"
+
     })
   } catch (err) {
     console.error(err)

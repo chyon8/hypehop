@@ -53,7 +53,7 @@ const {
   formatDate,
   stripTags,
   truncate,
-  /*editIcon,*/
+
   select,
   dateDifference,
   ifEqual,
@@ -69,7 +69,7 @@ app.engine(
       formatDate,
       stripTags,
       truncate,
-      /*editIcon,*/
+    
       select,
       dateDifference,
       ifEqual,

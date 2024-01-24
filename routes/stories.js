@@ -113,6 +113,10 @@ router.get('/', async (req, res) => {
      stories :storiesWithCommentCounts,
     
       storiesRank,
+      pageTitle: '하입합 | hype-hop',
+ pageDescription: '앨범 리뷰 평점 커뮤니티',
+ pageKeywords:"하입합, hypehop, 앨범 리뷰, 힙합, 음악, 차트, 앨범 차트, 힙합 차트, 앨범, 앨범 평점"
+
  
 
    
@@ -181,13 +185,16 @@ router.get('/:id', ensureAuth, async (req, res) => {
           runValidators: true,
         }
       );
-    
+    console.log(story)
       res.render('stories/show', {
         story,
         comments,
         userId: req.user._id,
         userDisplayName : req.user.displayName,
         userImage : req.user.image,
+        pageTitle: story.title,
+ pageDescription: '앨범 리뷰 평점 커뮤니티',
+ pageKeywords:"하입합, hypehop, 앨범 리뷰, 힙합, 음악, 차트, 앨범 차트, 힙합 차트, 앨범, 앨범 평점"
        
 
       })
