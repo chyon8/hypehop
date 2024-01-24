@@ -528,6 +528,11 @@ line-height: 1rem;
   line-height:5px
 }
 
+.switch:hover{
+  background-color: rgb(248 250 252);
+}
+
+
 
 
 .show .card{

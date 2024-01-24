@@ -3,9 +3,9 @@
 
 
 
-
-<a class="switch chip" href="/stories/user/{{users}}?category=feed">Feed</a>
 <a class="switch chip" href="/stories/user/{{users}}?category=reviews">Review</a>
+<a class="switch chip" href="/stories/user/{{users}}?category=feed">Feed</a>
+
 
 
 
@@ -210,15 +210,12 @@
 
 <!--                                default                     -->
 
-
- {{#each stories}}
-
-    
+ {{#each reviews}}
         <div class="card">
 
              
             <div class="card-image">
-
+         
             </div>
 
 
@@ -235,50 +232,53 @@
                    
 </div>
 
- 
-        <a target="_blank" class="content-container" style="color: black;" href="/stories/{{_id}}"> 
-                <p class="card-title" style="text-align: left;">{{title}}</p>
-                       <div class="content-body" >{{{ this.body }}} 
-                        
-                       </div> 
-                          <p class="readMore">더보기</p>
+<div class="reviewedAblum">
+    <a href="/album/{{albumId}}">
 
-                    
-                 <br> 
-           
+<img  src="{{thumbnail}}" alt="">
+<p>{{truncate albumTitle 50}} </p>
+<p> {{albumRating}}</p>
 
 </a>
-     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회  {{view}}</p>
+</div>
 
-             <div class="social" style="display: flex;">
+ 
+        <a style="color: black;" href="/album/review/{{_id}}" target="_blank"> 
+                <p class="card-title" style="text-align: left;">{{title}}</p>
+                       <div class="content-body" >{{{ this.body }}}</div> 
+
+                      
+                 <br> 
+
+</a>
+     <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회 {{view}}</p>
+
+
+
+ <div class="social" style="display: flex;">
   
-
      <button class="favorite"><i class="far fa-heart">
-      좋아요
-        {{isFavorite.length}} 
+      좋아요 {{isFavorite.length}}
+       
 
      </i></button>
 
-
-
-    <a class="commentBtn" href="/stories/{{_id}}" target="_blank">
+    <a  class="commentBtn" href="/album/review/{{_id}}" target="_blank">
     <button class="comment">
 
        
-
        <i class="far fa-comment"> 
-          댓글
-
-            {{commentCount}}
+          댓글   {{comments.length}}
+    
 
 
               </i>
     </i></button>
   </a>
 
-  </div>
+</div>
 
-                       
+                  
              
             </div>
 
@@ -290,10 +290,9 @@
  
 
     {{else}}
-    <p>No stories to display</p>
+    <p>No reviews to display</p>
 
     {{/each}}
-
 
 
 
