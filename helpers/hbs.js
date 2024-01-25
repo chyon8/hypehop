@@ -76,7 +76,8 @@ module.exports = {
 },
 contains: function(array, element, options) {
   return array.includes(element) ? options.fn(this) : options.inverse(this);
-}
+},
+
 
  
 }

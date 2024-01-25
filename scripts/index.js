@@ -9,40 +9,37 @@
        loader.style.display="block"
 
       const keyword = document.getElementById('keyword').value;
+    
 
-      const itemtype = document.getElementById('itemtype').value;
-      const display = document.getElementById('display').value;
 
-      axios.post('/album/search', { keyword, itemtype, display })
+
+
+      axios.post('/album/search', { keyword  })
         .then(function (response) {
+          console.log(response )
           displaySearchResults(response.data);
+          
         })
         .catch(function (error) {
           console.error('Error:', error.message);
         });
     });
 
-function displaySearchResults(xmlString) {
+function displaySearchResults(data) {
   const resultsContainer = document.getElementById('searchResults');
   
   resultsContainer.innerHTML = '';
  
 
-  // Parse the XML string to a DOM document
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-
-  // Log the entire XML document to inspect its structure
 
 
-  // Example: Displaying album titles
-  const items = xmlDoc.querySelectorAll('item');
 
-if (items.length > 0) {
-    items.forEach(item => {
-        const albumTitle = item.querySelector('title').textContent;
-        const thumbnail = item.querySelector('thumnail').textContent;
-        const albumId = item.getAttribute('id');
+
+if (data.length > 0) {
+    data.forEach(item => {
+        const albumTitle = item.name
+        const thumbnail = item.images[1].url
+        const albumId = item.id
 
         // Create a container for each result
         const resultContainer = document.createElement('div');
@@ -50,7 +47,7 @@ if (items.length > 0) {
         // Display album title and thumbnail inside the <a> tag
         const linkElement = document.createElement('a');
         linkElement.href = `/album/${albumId}`;
-        //`https://www.maniadb.com/api/album/${albumId}/&v=0.5`;
+    
          
 
         // Display album title
@@ -61,6 +58,7 @@ if (items.length > 0) {
         const thumbnailElement = document.createElement('img');
         thumbnailElement.src = thumbnail;
         thumbnailElement.alt = 'Thumbnail';
+        thumbnailElement.style="width:150px"
 
         // Append title and thumbnail elements to the <a> tag
         linkElement.appendChild(titleElement);
@@ -79,6 +77,7 @@ if (items.length > 0) {
 
         
     });
+
     loader.style.display="none"
 } else {
     const noResults = document.createElement('p');

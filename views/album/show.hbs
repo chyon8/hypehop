@@ -1,60 +1,44 @@
-
-
-
-
-{{#with albumData.rss.channel.[0]}}
+{{#with albumData}}
     <ul>
-        {{#each item}}
-            <li>
-                <img src="{{thumnail}}" alt="">
-                <div id="title">
-                    <h3>{{ title.[0] }}</h3>
-                  
-                </div>
-
-                {{#ifEqual ../../albumRatingAverage 'NaN'}}
+        <li>
+            <img style="width: 200px;" src="{{images.[1].url}}" alt="">
+            <div id="title">
+                <h3>
+                    {{#each artists }}
+                        {{name}} 
+                    {{/each}}
+                    -{{ name }}
+                </h3>
+            </div>
+            
+             {{#ifEqual ../albumRatingAverage 'NaN'}}
                  <p>앨범 평점: 평점이 없습니다.</p>
                  {{else}}
-                  <p>앨범 평점: {{../../albumRatingAverage}} ({{../../reviews.length}}) </p>
+                  <p>앨범 평점: {{../albumRatingAverage}} ({{../reviews.length}}) </p>
                 {{/ifEqual}}
+            
 
-                
-                
-                <p>Release Date: {{ releasedate.[0] }}</p>
+            <p>Release Date: {{ release_date }}</p>
 
-                {{#if description}}
-                    <p>{{{description.[0]}}} ...</p>
-                    <a href="https://www.maniadb.com/album/{{../../id}}" target="_blank">더보기</a>
-                {{else}}
-                    <p>설명이 없습니다.</p>
-                {{/if}}
+            <h4>Tracklist:</h4>
 
-                {{#if maniadb:tracks}}
-                    <h4>Tracklist:</h4>
-                    {{#each maniadb:tracks.[0].disc}}
-                        <table>
-                            <thead>
+            {{#each ../disc_total as |disc_index|}}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Disc {{ disc_index}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each ../tracks.items as |track|}}
+                            {{#ifEqual track.disc_number disc_index}}
                                 <tr>
-                                 
-                                    <th>Disc {{inc @index}} </th>
-                            
-                             
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each song}}
-                                    <tr>
-                                    
-                                        <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}}</td>
-                                        
-                                        
-                                   
-
-
-                                        <td>
-                                            <div class="average-rating">
-                                                {{#each ../../../../storedAverageArr}}
-                                                    {{#ifEqual key (inc @../../index)}}
+                                    <td>{{track.track_number}}. {{track.name}}</td>
+                                    <td>
+                                        <div class="average-rating">
+                                            {{#each ../../../storedAverageArr}}
+                                            
+                                                     {{#ifEqual key (inc @../../index)}}
 
                                                         {{#if (lookup this.values @../index)}}
                                                         <p> {{lookup this.values @../index}}</p>
@@ -63,23 +47,21 @@
                                                         {{/if}}
 
                                                     {{/ifEqual}}
-                                                {{/each}}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    {{/each}}
-                {{else}}
-                    <p>No tracklist available.</p>
-                {{/if}}
-            </li>
-        {{/each}}
+                                            {{/each}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {{/ifEqual}}
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/each}}
+
+            {{else}}
+                <p>No tracklist available.</p>
+        </li>
     </ul>
 {{/with}}
-
-
 
 
 
@@ -96,28 +78,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<button id="showTextareaBtn" class="button-outline black" onclick="toggleTextarea()">리뷰 작성하기</button>
--->
-
-
-
-
-    
 
     <div class="row" id="textarea-container" style="display: none;">
     <form action="/album/review" method="POST" class="col s12" onsubmit="return prepareForm()">
@@ -143,42 +103,44 @@
  </div>
 
 
-
 <h5>트랙별 평점</h5>
+
 
 <button id="showtrackrateareaBtn" onclick="toggleTrackRate()">트랙리스트 열기</button>
 
-<div id="tracks-rate" style="display: none;" >
+
+
+
+
 <!---                                       트랙리스팅                                       --->
+<div id="tracks-rate" style="display: none;" >
 
 
-{{#with albumData.rss.channel.[0]}}
-    {{#each item}}
-        {{#if maniadb:tracks}}
-            <div class="row" id="track-rating">
-                <h4>Track Ratings</h4>
+
+{{#with albumData}}
+  
+            
+            {{#each ../disc_total as |disc_index|}}
+
+              <div class="row" id="track-rating">
+               
                 <table class="striped">
-                   
-                   
-                        {{#each maniadb:tracks.[0].disc}}
-                         <thead>
+                    <thead>
                         <tr>
-
-                            <th>Disc{{inc @index}} </th>
-                       
-           
+                            <th>Disc {{ disc_index}}</th>
                         </tr>
                     </thead>
-                         <tbody>
-                            {{#each song}}
+                    <tbody>
+                        {{#each ../tracks.items as |track|}}
+                            {{#ifEqual track.disc_number disc_index}}
                                 <tr>
-                                   
-                                    <td>{{inc @index}} {{song.track.[0]}}. {{title.[0]}}</td>
-                                  
+                                    <td>{{track.track_number}}. {{track.name}}</td>
                                     <td>
-                                        <fieldset class="track-rate" id="track{{inc @index}}disc{{@../index}}">
+                                      
+
+                                                                       <fieldset class="track-rate" id="track{{inc @index}}disc{{@../index}}">
                                             <input type="hidden" name="discNumber" value="{{inc @../index}}">
-                                            <input type="hidden" name="trackTitle" value="disc{{@../index}}-{{inc @index}}.{{title.[0]}}">
+                                            <input type="hidden" name="trackTitle" value="disc{{@../index}}-{{inc @index}}.{{track.name}}">
                                             <input type="hidden" id="trackRating" name="trackRating">
                                             <!-- Add your rating input fields here -->
                                                 <input onclick="rateTrack(5, 'track{{inc @index}}disc{{@../index}}')" type="radio" id="rating10b{{inc @index}}disc{{@../index}}" name="rating" value="10" /><label for="rating10b{{inc @index}}disc{{@../index}}" title="5 stars"></label>
@@ -194,15 +156,20 @@
 
                                             <!-- ... -->
                                         </fieldset>
+
+
+                                      
                                     </td>
                                 </tr>
-                            {{/each}}
+                            {{/ifEqual}}
                         {{/each}}
                     </tbody>
                 </table>
+
+            
             </div>
-        {{/if}}
-    {{/each}}
+            {{/each}}
+
 {{/with}}
 
 
@@ -215,11 +182,8 @@
 
 <!---                                       트랙리스팅                                       --->
 
-       
-        
-        
-        
-        <div class="row">
+
+      <div class="row">
             <div class="input-field">
                 <input type="text" id="title" name="title" required>
                 <label for="title">한줄평</label>
@@ -236,31 +200,27 @@
             </div>
         </div>
 
-{{#with albumData.rss.channel.[0]}}
 
-{{#each item}}
+
+{{#with albumData}}
+
 
 
 
     <!-- New Fields (hidden) -->
 
     <input type="hidden" id="albumTitle" name="albumTitle" value="">
-     <input type="hidden" id="albumReleaseDate" name="albumReleaseDate" value=" {{releasedate.[0]}}">
+     <input type="hidden" id="albumReleaseDate" name="albumReleaseDate" value=" {{release_date}}">
   
 
-    <input type="hidden" id="albumId" name="albumId" value={{../../id}}>
-    <input type="hidden" id="thumbnail" name="thumbnail" value={{thumnail}}>
+    <input type="hidden" id="albumId" name="albumId" value={{id}}>
+    <input type="hidden" id="thumbnail" name="thumbnail" value={{images.[1].url}}>
     
     <!-- End New Fields -->
              
           
-  {{/each}}
 
   {{/with}}  
-                     
-
-
-    
 
 
 
@@ -291,11 +251,7 @@
     </form>
   
 
-  
-
-</div>
-
-
+  </div>
 
 
 <div class="review-section">
@@ -348,6 +304,9 @@
 {{/each}}
 
 </div>
+
+
+
 
 
 

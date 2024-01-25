@@ -25,6 +25,8 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
+    "qs": "^6.11.2",
+    "querystring": "^0.2.1",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

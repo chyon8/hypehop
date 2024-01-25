@@ -1141,3 +1141,14 @@ line-height: 150px;
 .howTo{
   float: right;
 }
+
+
+.searchResults img{
+  width: 150px;
+}
+
+
+
+#showTextareaBtn{
+margin-top: 20px;
+}

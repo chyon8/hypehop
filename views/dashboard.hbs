@@ -93,7 +93,7 @@
      <tbody>
         {{#each reviews}}
         <tr>
-            <td class="albumTitleMy"> {{ truncate albumTitle 50 }}  </td>
+            <td class="albumTitleMy"> {{truncate albumTitle 100 }}  </td>
             <td class="albumRatingMy">{{albumRating}}</td>
 
             <td><a href="/album/review/{{_id}}">{{truncate title 20}}</a></td>

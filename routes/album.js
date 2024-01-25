@@ -10,8 +10,82 @@ const Comment = require('../models/Comment');
 const Review = require('../models/Review');
 const { constants } = require('fs-extra');
 
-// @desc    Login/Landing page
-// @route   GET /
+
+
+
+
+////     spotyfy 
+
+const clientId = process.env.SPOTIFY_CLIENT_ID
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
+
+
+
+
+router.post('/search', async (req, res) => {
+  const { keyword } = req.body;
+  try {
+    // Step 1: Obtain Access Token
+    const tokenResponse = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+
+    const accessToken = tokenResponse.data.access_token;
+
+    // Step 2: Use Access Token in Search Request
+    const spotify_search_one = await axios.get('https://api.spotify.com/v1/search', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      params: {
+        q: keyword,
+        type: "album",
+        limit:10
+      },
+    });
+
+    // Access and log the 'items' array from the response
+    //console.log(spotify_search_one.data.albums.items);
+
+    // Send the 'items' array in the response
+    res.status(200).json(spotify_search_one.data.albums.items);
+  } catch (error) {
+    console.error(error);
+
+    // Handle errors and send an appropriate response
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+/// spotify
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 router.get('/',async (req, res) => {
@@ -307,36 +381,7 @@ router.get('/review/:id', ensureAuth, async (req, res) => {
 
 
 
-// Function to fetch data from MANIADB API
-async function fetchData(url) {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error.message);
-    throw error;
-  }
-}
 
-// Express route to handle search requests
-router.post('/search' ,async (req, res) => {
-  const { keyword, itemtype, display } = req.body;
-
-
- const searchUrl = `http://www.maniadb.com/api/search/${keyword}/?sr=${itemtype}&display=${display}&v=0.5`;
-
-
-
-
-  try {
-   
-    const searchData = await fetchData(searchUrl);
-    res.json(searchData);
-  
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 
 router.get('/:id',ensureAuth, async (req, res) => {
@@ -344,19 +389,40 @@ router.get('/:id',ensureAuth, async (req, res) => {
 
     let albumId = req.params.id;
 
-    const searchUrl = `https://www.maniadb.com/api/album/${albumId}/&v=0.5`;
+    const tokenResponse = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
 
+    const accessToken = tokenResponse.data.access_token;
    
-    
+    const spotify_search_album_by_id = await axios.get(`https://api.spotify.com/v1/albums/${albumId}`, {
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+  },
+});
+
+
+const container = spotify_search_album_by_id.data.tracks.items
+const disc_total=container[container.length-1].disc_number
+const discArray = Array.from({ length: disc_total }, (_, index) => index + 1);
 
     let reviews = await Review.find({albumId :req.params.id}).populate('user').lean()
-
+   
 
      //앨범 아이디 찾아서 평균치 내기
-     const albumRatings = reviews.map(item => item.albumRating);
+  
+      const albumRatings = reviews.map(item => item.albumRating);
+    
      const sum = albumRatings.reduce((acc, rating) => acc + rating, 0);
      const average = sum / albumRatings.length;
      const roundedAverage = average.toFixed(1);
+
 
     //트랙별 평점 
 
@@ -427,26 +493,29 @@ let average = [];
     try {
       
       const storedAverageArr = storedAverage.map((list, index) => ({ key: index + 1, values: list }));
-      const searchDataXml = await fetchData(searchUrl);
-      const searchData = await parseXml(searchDataXml);
+      
       const reviewUser = reviews.map(item => item.user._id.toString());
-     const albumTitleFromApi=searchData.rss.channel[0].item[0].title[0]
 
-      const albumTitleParts = albumTitleFromApi.split('-').map(part => part.trim())
-      const concatenatedTitle = albumTitleParts.join(',');
+      const albumArtist=spotify_search_album_by_id.data.artists[0].name
+      const albumTitleFromApi=spotify_search_album_by_id.data.name
+      const albumTitleFromSpotifyAPi =albumArtist +"-" + albumTitleFromApi
+      const concatenatedTitle= albumArtist +"," + albumTitleFromApi 
       const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
+
+   
 
       res.render('album/show', { 
         loggedInUser:req.user.id,
-        albumData: searchData,
+        albumData: spotify_search_album_by_id.data,
         id:albumId,
+        disc_total : discArray,
         albumRatingAverage:roundedAverage,
         reviews,
         storedAverageArr,
         reviewUser,
 
-        pageTitle: albumTitleFromApi,
-        pageDescription: albumTitleFromApi,
+        pageTitle: albumTitleFromSpotifyAPi,
+        pageDescription: albumTitleFromSpotifyAPi,
         pageKeywords:pageKeyword
  
        });
