@@ -110,6 +110,18 @@ body{
   width: 20% !important;
 }
 
+.info{
+  display: none;
+}
+
+
+.blog{
+  display: block !important;
+}
+.contact{
+  display: block !important;
+}
+
 
 
 
