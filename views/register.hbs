@@ -1,0 +1,83 @@
+
+<div class="section">
+      <form class="form" action="/register" method="POST">
+        <div class="flex-column">
+          <label for="name">Name</label>
+           <div class="inputForm">
+          <input
+            type="name"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter Name"
+            value="{{#if name}}{{name}}{{/if}}"
+            />
+            </div>
+
+     
+        </div>
+        <div class="flex-column">
+          <label for="email">Email</label>
+            <div class="inputForm">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email"
+            value="{{#if email}}{{email}}{{/if}}"
+
+          />
+          </div>
+        </div>
+
+
+        <div class="flex-column">
+          <label for="password">Password</label>
+            <div class="inputForm">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password"
+            value="{{#if password}}{{password}}{{/if}}"
+
+          />
+          </div>
+        </div>
+
+
+        <div class="flex-column">
+          <label for="password2">Confirm Password</label>
+           <div class="inputForm">
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm Password"
+            value="{{#if password2}}{{password2}}{{/if}}"
+
+          />
+        </div>
+        </div>
+        <button id="test" type="submit" class="button-submit">
+          Register
+        </button>
+      </form>
+
+      <p class="p">Have An Account? <a href="/"> <span class="span">Sign In</span></a></p>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+{{#each errors}}
+<p>{{this.msg}}</p>
+{{/each}}
+
+
+</div>

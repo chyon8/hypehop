@@ -1,24 +1,35 @@
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
+  name:{
+    type:String,
+  
+  },
+  email:{
+    type:String,
+  },
+  password:{
+    type:String,
+  },
   googleId: {
     type: String,
-    required: true,
+
   },
   displayName: {
     type: String,
-    required: true,
+
   },
   firstName: {
     type: String,
-    required: true,
+   
   },
   lastName: {
     type: String,
-    required: false,
+   
   },
   image: {
     type: String,
+    default:"https://i.ibb.co/M1SBs5R/logoo.png"
   },
   createdAt: {
     type: Date,
