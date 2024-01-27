@@ -263,7 +263,11 @@
  
    <div class="chip-chip">
         <img src="{{this.user.image}}" alt="">
-         <a  style="color: black;" href="/stories/user/{{this.user._id}}"> {{this.user.displayName}}</a>
+         <a  style="color: black;" href="/stories/user/{{this.user._id}}">  {{#if this.user.name}}
+                    {{this.user.name}}
+                    {{else}}
+                    {{this.user.displayName}}
+                    {{/if}}</a>
     </div>
 
 

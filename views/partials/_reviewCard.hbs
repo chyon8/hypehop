@@ -13,7 +13,11 @@
 <div class="chip">
                  <img src="{{user.image}}" alt="">
                 
-                    <a style="color: black;" href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    <a style="color: black;" href="/stories/user/{{user._id}}">  {{#if user.name}}
+                    {{user.name}}
+                    {{else}}
+                    {{user.displayName}}
+                    {{/if}}</a>
                     <p> {{dateDifference createdAt now}}</p>
 
               
@@ -35,18 +39,9 @@
                 <p class="card-title" style="text-align: left;">{{title}}</p>
                        <div class="content-body" >{{{ this.body }}}</div> 
 
-                       <!--  <div class="content-body" >{{{truncate this.body 100}}}</div>   -->
+                     
                  <br> 
-               <!-- <p style="text-align: left;">{{stripTags (truncate body 150)}}</p>  -->
-       
-       <!--
-               <div class="card-action center-align">
-         
-                <a href="/stories/{{_id}}" class="btn black">Read More</a>
-                   
-            </div>
-       -->
-
+          
 </a>
      <p class="chip" style="position: absolute; bottom: 20px; right: 0;" >조회 {{view}}</p>
 

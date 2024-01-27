@@ -13,7 +13,11 @@
  <div class="chip">
                  <img src="{{story.user.image}}" alt="">
                 
-                    <a style="color: black;" href="/stories/user/{{userId}}">{{userDisplayName}}</a>
+                    <a style="color: black;" href="/stories/user/{{userId}}">  {{#if userName}}
+                    {{userName}}
+                    {{else}}
+                    {{userDisplayName}}
+                    {{/if}}</a>
                     <p> {{dateDifference story.createdAt now}}</p>
 
               

@@ -191,6 +191,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
         comments,
         userId: req.user._id,
         userDisplayName : req.user.displayName,
+        userName: req.user.name,
         userImage : req.user.image,
         pageTitle: story.title,
  pageDescription: '앨범 리뷰 평점 커뮤니티',

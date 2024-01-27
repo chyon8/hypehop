@@ -7,7 +7,13 @@
  <div class="chip">
                  <img src="{{review.user.image}}" alt="">
                
-                    <a style="color: black;" href="/stories/user/{{review.user._id}}">{{review.user.displayName}}</a>
+                    <a style="color: black;" href="/stories/user/{{review.user._id}}"> 
+                    {{#if review.user.name}}
+                    {{review.user.name}}
+                    {{else}}
+                    {{review.user.displayName}}
+                    {{/if}}
+                    </a>
                     <p> {{dateDifference review.createdAt now}}</p>
              
                    
@@ -144,7 +150,11 @@
 
      <div class="chip-chip">
     <img  src="{{this.user.image}}" alt=""> 
-     <a  style="color: black;" href="/stories/user/{{this.user._id}}"> {{this.user.displayName}}</a>
+     <a  style="color: black;" href="/stories/user/{{this.user._id}}">   {{#if review.user.name}}
+                    {{review.user.name}}
+                    {{else}}
+                    {{review.user.displayName}}
+                    {{/if}}</a>
      {{dateDifference createdAt now}}
        <form action="/comments/{{this._id}}" method="POST" id="delete-form">
                     <input type="hidden" name="_method" value="DELETE">
