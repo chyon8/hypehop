@@ -150,10 +150,10 @@
 
      <div class="chip-chip">
     <img  src="{{this.user.image}}" alt=""> 
-     <a  style="color: black;" href="/stories/user/{{this.user._id}}">   {{#if review.user.name}}
-                    {{review.user.name}}
+     <a  style="color: black;" href="/stories/user/{{this.user._id}}">   {{#if this.user.name}}
+                    {{this.user.name}}
                     {{else}}
-                    {{review.user.displayName}}
+                    {{this.user.displayName}}
                     {{/if}}</a>
      {{dateDifference createdAt now}}
        <form action="/comments/{{this._id}}" method="POST" id="delete-form">
