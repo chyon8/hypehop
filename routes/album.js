@@ -174,6 +174,7 @@ const uniqueAlbumsMap = new Map(); // Using Map to store album titles and their 
 //const resultLimitChart = 3;
 
 albumRank.forEach(item => {
+
   const albumTitle = item.albumTitle.trim();
   const albumId = item.albumId;
   const albumRating = item.albumRating;
@@ -197,8 +198,15 @@ albumRank.forEach(item => {
 
 const uniqueAlbumsArrayChart = [...uniqueAlbumsMap.values()].slice(0);
 
-uniqueAlbumsArrayChart.forEach(album => {
+// 앨범 리뷰 2개 이상  -> 나중에 한 3~5개 이상으로 바꿔야겠지 
+const filteredAlbums = uniqueAlbumsArrayChart.filter(album => album.ratings.length > 1);
+
+filteredAlbums.forEach(album => {
+  
+
   const sumOfRatings = album.ratings.reduce((sum, rating) => sum + rating, 0);
+
+
   const averageRating = sumOfRatings / album.ratings.length;
   album.averageRating = Number(averageRating.toFixed(1));
   const weightedAverage = (sumOfRatings + 0.1 * album.ratings.length) / (album.ratings.length + 0.1);
@@ -206,9 +214,9 @@ uniqueAlbumsArrayChart.forEach(album => {
 
 });
 
-uniqueAlbumsArrayChart.sort((a, b) => b.weightedAverage - a.weightedAverage);
+filteredAlbums.sort((a, b) => b.weightedAverage - a.weightedAverage);
 
-let top5Albums = uniqueAlbumsArrayChart.slice(0, 10)
+let top5Albums = filteredAlbums.slice(0, 10)
 
 
 //                     앨범 평점 차트  all time

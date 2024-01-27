@@ -9,8 +9,7 @@ const Comment = require('../models/Comment')
 const User = require('../models/User')
 const Review = require('../models/Review')
 
-// @desc    Show add page
-// @route   GET /stories/add
+
 router.get('/add', ensureAuth, (req, res) => {
   res.render('stories/add')
 })
