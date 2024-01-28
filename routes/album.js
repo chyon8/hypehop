@@ -304,7 +304,6 @@ router.get('/review', async (req, res) => {
   
   
 
-
     res.render('album/review', {
       user:req.user,
       reviewsRank,

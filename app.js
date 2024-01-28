@@ -21,6 +21,11 @@ connectDB()
 const app = express()
 
 
+// Serve robots.txt
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('User-agent: *\nDisallow: /*?/\nsitemap: https://hype-hop.onrender.com/sitemap.xml');
+});
 
 
 

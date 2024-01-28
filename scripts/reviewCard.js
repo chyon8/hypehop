@@ -97,9 +97,12 @@ function truncate (str, len) {
 
             <div id="${story._id}" class="card-content ">
 
-<div class="chip"><img src="${story.user.image}" alt="">          
-                   <a style="color: black;" href="/stories/user/${story.user.id}">
-${story.user.displayName}
+<div class="chip"><img src="${story.user.image}" alt="">  
+   
+                   <a style="color: black;" href="/stories/user/${story.user._id}">
+                   ${
+                    story.user.name ? story.user.name : story.user.displayName
+                  }
 		 </a>
 
                     <p> ${story.formattedDate}</p>                  
