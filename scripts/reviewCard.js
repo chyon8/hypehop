@@ -89,7 +89,7 @@ function truncate (str, len) {
         
      newStories.forEach((story) => {
         story.formattedDate = dateDifference(story.createdAt, now);
-        story.truncated = truncate(story.albumTitle,50)
+        story.truncated = truncate(story.albumTitle,100)
      
        const storyCardTemplate = Handlebars.compile(`
 
