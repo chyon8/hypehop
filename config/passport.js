@@ -18,8 +18,8 @@ module.exports = function (passport) {
         const newUser = {
           googleId: profile.id,
           displayName: profile.displayName,
-          firstName: profile.name.givenName || "anonymous",
-          lastName: profile.name.familyName || "anonymous",
+          firstName: profile.name?.givenName ?? "No name" ,
+          lastName: profile.name?.familyName ?? "No name",
           image: profile.photos[0].value,
         }
 
