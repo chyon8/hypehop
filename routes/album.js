@@ -268,15 +268,16 @@ router.get('/review', async (req, res) => {
 
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
+   
+    const oneWeekAgo = new Date(today);
+    oneWeekAgo.setUTCDate(oneWeekAgo.getUTCDate() - 7);
 
     //daily ranking
     const reviewsRank = await Review.aggregate([
       {
         $match: {
           status: 'public',
-         createdAt: { $gte: startOfWeek } 
+         createdAt: { $gte: oneWeekAgo,$lte: today } 
         }
       },
       {
@@ -491,6 +492,7 @@ let average = [];
  
   }
   storedAverage.push(average)
+
 
 
 
