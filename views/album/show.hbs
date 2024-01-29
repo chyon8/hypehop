@@ -36,12 +36,17 @@
                                     <td>{{track.track_number}}. {{track.name}}</td>
                                     <td>
                                         <div class="average-rating">
+                                            
                                             {{#each ../../../storedAverageArr}}
                                             
                                                      {{#ifEqual key (inc @../../index)}}
 
                                                         {{#if (lookup this.values @../index)}}
+                                                        {{#ifEqual this "NaN"}}
                                                         <p> {{lookup this.values @../index}}</p>
+                                                        {{else}}
+                                                        <p>-</p>
+                                                        {{/ifEqual}}
                                                         {{else}}
                                                         <p>  - </p>
                                                         {{/if}}

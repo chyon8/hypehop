@@ -10,6 +10,63 @@ const Comment = require('../models/Comment');
 const Review = require('../models/Review');
 const { constants } = require('fs-extra');
 
+//sitemap
+
+
+
+
+//sitemap
+
+
+
+
+const generateSitemap = async () => {
+  const reviewId = await Review.find({ status: 'public' })
+  .sort({ createdAt: 'desc' })
+  .limit(100)
+  .lean()
+
+ const albumIdsList =[...new Set (reviewId.map(item=>item._id))]
+
+ // Implement the function to fetch album IDs
+
+
+  const xmlItems = albumIdsList.map((reviewId) => {
+    return `<url>
+        <loc>https://hype-hop.onrender.com/album/review/${reviewId}</loc>
+       
+      </url>
+    `;
+  });
+
+  // Construct the complete XML
+  const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <script/>
+      ${xmlItems.join('')}
+    </urlset>
+  `;
+
+  return sitemapContent;
+  
+
+};
+
+
+
+
+router.get('/sitemap.xml', async (req, res) => {
+  try {
+    // Dynamically generate the sitemap content here
+    const sitemapContent = (await generateSitemap()).trim(); // Implement the function to generate sitemap content
+
+    res.header('Content-Type', 'application/xml');
+    res.send(sitemapContent);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 
@@ -18,9 +75,6 @@ const { constants } = require('fs-extra');
 
 const clientId = process.env.SPOTIFY_CLIENT_ID
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
-
-
-
 
 router.post('/search', async (req, res) => {
   const { keyword } = req.body;
@@ -346,7 +400,7 @@ router.get('/api/review/scroll', async (req, res) => {
 
 
 
-router.get('/review/:id', ensureAuth, async (req, res) => {
+router.get('/review/:id', async (req, res) => {
   try {
     let review = await Review.findById(req.params.id).populate('user').lean()
     let comments = await Comment.find({review :req.params.id}).populate('user').lean()
@@ -363,7 +417,7 @@ router.get('/review/:id', ensureAuth, async (req, res) => {
       }
     );
 
-    const pageKey = review.albumTitle.trim()
+
     const albumTitleParts = review.albumTitle.split('-').map(part => part.trim())
     const concatenatedTitle = albumTitleParts.join(',');
     const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
@@ -511,7 +565,7 @@ let average = [];
       const concatenatedTitle= albumArtist +"," + albumTitleFromApi 
       const pageKeyword = concatenatedTitle + ' 앨범 리뷰, 힙합, 음악, 앨범 평점';
 
-   
+
 
       res.render('album/show', { 
         loggedInUser:req.user.id,
