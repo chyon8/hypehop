@@ -209,7 +209,7 @@ filteredAlbums.forEach(album => {
 
   const averageRating = sumOfRatings / album.ratings.length;
   album.averageRating = Number(averageRating.toFixed(1));
-  const weightedAverage = (sumOfRatings + 0.1 * album.ratings.length) / (album.ratings.length + 0.1);
+  const weightedAverage = (sumOfRatings + 0.1 * album.ratings.length) / (album.ratings.length + 0.5);
   album.weightedAverage = Number(weightedAverage);
 
 });
