@@ -487,7 +487,7 @@ let average = [];
     }
 
  
-  average.push((sum / reviewedCount));     //arr.length = 리뷰 수 
+  average.push((sum / reviewedCount).toFixed(1));     //arr.length = 리뷰 수 
  
   }
   storedAverage.push(average)
