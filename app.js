@@ -24,7 +24,7 @@ const app = express()
 // Serve robots.txt
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
-  res.send('User-agent: *\nDisallow: /*?/\nsitemap: https://hype-hop.onrender.com/sitemap.xml');
+  res.send('User-agent: *\nDisallow: /*?\nuser-agent:bingbot\ncrawl-delay:20\nsitemap: https://hype-hop.onrender.com/sitemap.xml');
 });
 
 
