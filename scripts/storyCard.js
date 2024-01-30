@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded',  function () {
                            <div class="content-body" >${story.body}
                           
                            </div>   
-                              <p class="readMore">더보기</p>            
+                                        
                      <br> 
               
     </a>

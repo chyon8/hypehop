@@ -124,7 +124,7 @@ function truncate (str, len) {
                        <div class="content-body" >${story.body}
                       
                        </div>   
-                          <p class="readMore">더보기</p>            
+                              
                  <br> 
           
 </a>
