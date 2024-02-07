@@ -615,12 +615,31 @@ router.post('/review', ensureAuth, async (req, res) => {
 
 const tracksByDisc = {};
 
-trackTitle.forEach((track,index) => {
-  const [disc, title] = track.split('-'); // Split the track into disc and title
-  const discNumber = disc.slice(4); // Extract the disc number (remove "disc" prefix)
-  const rating = trackRating[index]
 
-  // Check if the disc number exists in tracksByDisc, if not, create a new entry
+if (Array.isArray(trackTitle)) {
+  trackTitle.forEach((track, index) => {
+    const [disc, title] = track.split('-'); // Split the track into disc and title
+    const discNumber = disc.slice(4); // Extract the disc number (remove "disc" prefix)
+    const rating = trackRating[index];
+
+    // Check if the disc number exists in tracksByDisc, if not, create a new entry
+    if (!tracksByDisc[discNumber]) {
+      tracksByDisc[discNumber] = {
+        trackTitles: [],
+        trackRatings: [],
+      };
+    }
+
+    // Push the title to the corresponding disc number in tracksByDisc
+    tracksByDisc[discNumber].trackTitles.push(title);
+    tracksByDisc[discNumber].trackRatings.push(rating);
+  });
+} else if (typeof trackTitle === 'string') {
+  // Handle the case when trackTitle is a string
+  const [disc, title] = trackTitle.split('-');
+  const discNumber = disc.slice(4);
+  const rating = trackRating; // Assuming trackRating is a single value in this case
+
   if (!tracksByDisc[discNumber]) {
     tracksByDisc[discNumber] = {
       trackTitles: [],
@@ -628,10 +647,12 @@ trackTitle.forEach((track,index) => {
     };
   }
 
-  // Push the title to the corresponding disc number in tracksByDisc
   tracksByDisc[discNumber].trackTitles.push(title);
   tracksByDisc[discNumber].trackRatings.push(rating);
-});
+} else {
+  // Handle other cases as needed
+  console.error('Invalid input: trackTitle must be an array or a string');
+}
 
 
 
