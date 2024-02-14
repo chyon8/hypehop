@@ -43,9 +43,10 @@
 
                                                         {{#if (lookup this.values @../index)}}
                                                         {{#ifEqual this "NaN"}}
-                                                        <p> {{lookup this.values @../index}}</p>
+                                                            <p>-</p>
                                                         {{else}}
-                                                        <p>-</p>
+                                                    
+                                                          <p> {{lookup this.values @../index}}</p>
                                                         {{/ifEqual}}
                                                         {{else}}
                                                         <p>  - </p>
