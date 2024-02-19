@@ -321,7 +321,7 @@ router.get('/review', async (req, res) => {
 
 
     const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+    today.setUTCHours(23, 59, 59, 999);
    
     const oneWeekAgo = new Date(today);
     oneWeekAgo.setUTCDate(oneWeekAgo.getUTCDate() - 7);
@@ -355,7 +355,7 @@ router.get('/review', async (req, res) => {
       }
     ]);
 
-  
+  console.log(today)
   
 
     res.render('album/review', {
