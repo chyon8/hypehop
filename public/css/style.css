@@ -84,7 +84,7 @@ body{
 
 
 
-/* 폰 정도 Responsive styles for screens smaller than 600px */
+/* 폰 Responsive styles for screens smaller than 600px */
 
 @media screen and (max-width: 600px) {
   .card {
@@ -412,7 +412,7 @@ i{
 .rate > label {
     float: right;
 }
-/* The star of the show */
+
 .rate > label:before {
     display: inline-block;
     font-size: 1.5rem;
@@ -617,11 +617,7 @@ line-height: 1rem;
 
 
 
-/*
-.content-container{
-  max-height:400px !important ;
-}
-*/
+
 
 .show{
 width: 80%;
@@ -765,21 +761,6 @@ a{
 	}
 }
 
-/*
-.name-title {
-
-	float: left;
-	height: 150px;
-	line-height: 150px;
-	font-size: 18px;
-	color: #A3A8CD;
-	span {
-   
-		
-		color: #A3A8CD;
-	}
-}
-*/
 
 /* Button */
 .link {
@@ -834,11 +815,6 @@ line-height: 150px;
 	background-color: #fff; color: #F5CE64;
 	border: none;
 }
-
-
-
-
-
 
 
 
