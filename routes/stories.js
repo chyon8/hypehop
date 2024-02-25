@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 
    
     const page = req.query.page || 1;
-    const perPage = 10; // Adjust this according to your needs
+    const perPage = 10; 
 
    
     const stories = await Story.find({ status: 'public' })
@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
 
 
       const today = new Date();
-      today.setUTCHours(23, 59, 59, 999); // Set the time to the beginning of the day
+      today.setUTCHours(23, 59, 59, 999); 
       
       const oneWeekAgo = new Date(today);
       oneWeekAgo.setUTCDate(oneWeekAgo.getUTCDate() - 7);
@@ -61,7 +61,7 @@ router.get('/', async (req, res) => {
         },
         {
           $lookup: {
-            from: 'users', // Replace with the actual name of your User model
+            from: 'users', 
             localField: 'isFavorite',
             foreignField: '_id',
             as: 'favoritedUsers'
@@ -76,7 +76,7 @@ router.get('/', async (req, res) => {
           $sort: { favoriteCount: -1, createdAt:-1 }
         },
         {
-          $limit: 5 // Adjust the number based on your requirement
+          $limit: 5 
         }
       ]);
 
@@ -98,7 +98,7 @@ router.get('/', async (req, res) => {
 
   const commentCountMap = new Map(commentCounts.map(({ _id, commentCount }) => [String(_id), commentCount]));
 
-  // Add the comment count to each story
+
   const storiesWithCommentCounts = stories.map(story => ({
     ...story,
     commentCount: commentCountMap.get(String(story._id)) || 0,
@@ -133,7 +133,7 @@ router.get('/api/scroll', async (req, res) => {
   try {
  
     const page = req.query.page || 1;
-    const perPage = 10; // Adjust this according to your needs
+    const perPage = 10;
 
    
     const storiesInfinite = await Story.find({ status: 'public' })
@@ -178,7 +178,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
     } else {
       await Story.findOneAndUpdate(
         { _id: req.params.id },
-        { $inc: { view: 1 } }, // Increment the 'view' field by 1
+        { $inc: { view: 1 } }, 
         {
           new: true,
           runValidators: true,

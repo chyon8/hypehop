@@ -28,7 +28,7 @@ const generateSitemap = async () => {
 
  const albumIdsList =[...new Set (reviewId.map(item=>item._id))]
 
- // Implement the function to fetch album IDs
+
 
 
   const xmlItems = albumIdsList.map((reviewId) => {
@@ -39,7 +39,7 @@ const generateSitemap = async () => {
     `;
   });
 
-  // Construct the complete XML
+  
   const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
@@ -57,8 +57,8 @@ const generateSitemap = async () => {
 
 router.get('/sitemap.xml', async (req, res) => {
   try {
-    // Dynamically generate the sitemap content here
-    const sitemapContent = (await generateSitemap()).trim(); // Implement the function to generate sitemap content
+
+    const sitemapContent = (await generateSitemap()).trim();
 
     res.header('Content-Type', 'application/xml');
     res.send(sitemapContent);
@@ -79,7 +79,7 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
 router.post('/search', async (req, res) => {
   const { keyword } = req.body;
   try {
-    // Step 1: Obtain Access Token
+    //Obtain Access Token
     const tokenResponse = await axios.post(
       'https://accounts.spotify.com/api/token',
       `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
@@ -92,7 +92,7 @@ router.post('/search', async (req, res) => {
 
     const accessToken = tokenResponse.data.access_token;
 
-    // Step 2: Use Access Token in Search Request
+    // Use Access Token in Search Request
     const spotify_search_one = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
@@ -104,15 +104,12 @@ router.post('/search', async (req, res) => {
       },
     });
 
-    // Access and log the 'items' array from the response
-    //console.log(spotify_search_one.data.albums.items);
-
-    // Send the 'items' array in the response
+   
     res.status(200).json(spotify_search_one.data.albums.items);
   } catch (error) {
     console.error(error);
 
-    // Handle errors and send an appropriate response
+  
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -185,11 +182,7 @@ const albumRank = await Review.find({
 .lean()
  
 
-
-  
 const uniqueAlbumTitles = [];
-
-
 
 const uniqueAlbumsSet = new Set();
 const uniqueAlbumsArray = [];
@@ -198,7 +191,7 @@ let uniqueAlbumsCount = 0;
 
 reviews.forEach(item => {
   if (uniqueAlbumsCount >= resultLimit) {
-    return; // Break out of the loop if the result limit is reached
+    return;
   }
 
   const albumTitle = item.albumTitle.trim();
@@ -219,12 +212,10 @@ reviews.forEach(item => {
 
 
 
-
-
 //                         앨범 평점 차트  all time 
 
 
-const uniqueAlbumsMap = new Map(); // Using Map to store album titles and their ratings
+const uniqueAlbumsMap = new Map(); 
 //const resultLimitChart = 3;
 
 albumRank.forEach(item => {
@@ -235,7 +226,7 @@ albumRank.forEach(item => {
   const thumbnail = item.thumbnail
 
   if (!uniqueAlbumsMap.has(albumTitle)) {
-    // If album title is not in the map, add a new entry with an array of ratings
+
     uniqueAlbumsMap.set(albumTitle, {
       albumTitle,
       albumId,
@@ -244,7 +235,7 @@ albumRank.forEach(item => {
    
     });
   } else {
-    // If album title is already in the map, add the rating to the existing array
+    
     uniqueAlbumsMap.get(albumTitle).ratings.push(albumRating);
   }
 });
@@ -252,7 +243,7 @@ albumRank.forEach(item => {
 
 const uniqueAlbumsArrayChart = [...uniqueAlbumsMap.values()].slice(0);
 
-// 앨범 리뷰 2개 이상  -> 나중에 한 3~5개 이상으로 바꿔야겠지 
+// 앨범 리뷰 2개 이상  -> 나중에 한 3~5개 이상으로 
 const filteredAlbums = uniqueAlbumsArrayChart.filter(album => album.ratings.length > 1);
 
 filteredAlbums.forEach(album => {
@@ -282,7 +273,7 @@ let top5Albums = filteredAlbums.slice(0, 10)
 
 
     res.render('album/index', {
-     //  name: req.user.firstName,
+     
       reviews,
       uniqueAlbumsArray,
       top5Albums,
@@ -305,7 +296,7 @@ router.get('/review', async (req, res) => {
 
 
     const page = req.query.page || 1;
-    const perPage = 10; // Adjust this according to your needs
+    const perPage = 10; 
 
     const reviews = await Review.find({ status: 'public' })
     .populate('user')
@@ -313,11 +304,6 @@ router.get('/review', async (req, res) => {
     .limit(perPage)
     .sort({ createdAt: 'desc' })
     .lean()
-
-
-    
-
-
 
 
     const today = new Date();
@@ -336,7 +322,7 @@ router.get('/review', async (req, res) => {
       },
       {
         $lookup: {
-          from: 'users', // Replace with the actual name of your User model
+          from: 'users', 
           localField: 'isFavorite',
           foreignField: '_id',
           as: 'favoritedUsers'
@@ -351,7 +337,7 @@ router.get('/review', async (req, res) => {
         $sort: { favoriteCount: -1, createdAt:-1 }
       },
       {
-        $limit: 5 // Adjust the number based on your requirement
+        $limit: 5 
       }
     ]);
 
@@ -373,12 +359,11 @@ router.get('/review', async (req, res) => {
 })
 
 
-
 router.get('/api/review/scroll', async (req, res) => {
   try {
  
     const page = req.query.page || 1;
-    const perPage = 10; // Adjust this according to your needs
+    const perPage = 10; 
 
    
     const reviewsInfinite = await Review.find({ status: 'public' })
@@ -398,8 +383,6 @@ router.get('/api/review/scroll', async (req, res) => {
 
 
 
-
-
 router.get('/review/:id', async (req, res) => {
   try {
     let review = await Review.findById(req.params.id).populate('user').lean()
@@ -410,7 +393,7 @@ router.get('/review/:id', async (req, res) => {
     }
     await Review.findOneAndUpdate(
       { _id: req.params.id },
-      { $inc: { view: 1 } }, // Increment the 'view' field by 1
+      { $inc: { view: 1 } }, 
       {
         new: true,
         runValidators: true,
@@ -439,9 +422,6 @@ router.get('/review/:id', async (req, res) => {
     res.render('error/404')
   }
 })
-
-
-
 
 
 
@@ -519,7 +499,7 @@ let storedAverage = [];
 
 //디스크 넘버에 따라 돌기 2cd면 두번
 for (let i = 0,j=1; i < formattedArray.length; i++,j++){
-  let arr= formattedArray[i][j] //arr = 디스크별로 첫번째 유저가 쓴거, 트랙수 구하기  위해서 쓴 변수
+  let arr= formattedArray[i][j] 
 
 let average = [];
 
@@ -593,20 +573,13 @@ let average = [];
 
 
 
-
-
-
-
-
-
-
 //album review create
 
 router.post('/review', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
   
-   // await Review.create(req.body)
+   
    const { albumRating, title, status, albumTitle, albumId, thumbnail, user, body, albumReleaseDate } = req.body
    const { discNumber, trackTitle, trackRating } = req.body;
 
@@ -618,11 +591,11 @@ const tracksByDisc = {};
 
 if (Array.isArray(trackTitle)) {
   trackTitle.forEach((track, index) => {
-    const [disc, title] = track.split('-'); // Split the track into disc and title
-    const discNumber = disc.slice(4); // Extract the disc number (remove "disc" prefix)
+    const [disc, title] = track.split('-'); 
+    const discNumber = disc.slice(4); 
     const rating = trackRating[index];
 
-    // Check if the disc number exists in tracksByDisc, if not, create a new entry
+
     if (!tracksByDisc[discNumber]) {
       tracksByDisc[discNumber] = {
         trackTitles: [],
@@ -630,15 +603,15 @@ if (Array.isArray(trackTitle)) {
       };
     }
 
-    // Push the title to the corresponding disc number in tracksByDisc
+
     tracksByDisc[discNumber].trackTitles.push(title);
     tracksByDisc[discNumber].trackRatings.push(rating);
   });
 } else if (typeof trackTitle === 'string') {
-  // Handle the case when trackTitle is a string
+
   const [disc, title] = trackTitle.split('-');
   const discNumber = disc.slice(4);
-  const rating = trackRating; // Assuming trackRating is a single value in this case
+  const rating = trackRating; 
 
   if (!tracksByDisc[discNumber]) {
     tracksByDisc[discNumber] = {
@@ -650,12 +623,9 @@ if (Array.isArray(trackTitle)) {
   tracksByDisc[discNumber].trackTitles.push(title);
   tracksByDisc[discNumber].trackRatings.push(rating);
 } else {
-  // Handle other cases as needed
+  
   console.error('Invalid input: trackTitle must be an array or a string');
 }
-
-
-
 
 
 
@@ -664,7 +634,6 @@ const tracks = Object.keys(tracksByDisc).map((discNumber) => ({
   trackTitle: tracksByDisc[discNumber].trackTitles,
   trackRating: tracksByDisc[discNumber].trackRatings,
 }));
-
 
 
 
@@ -748,9 +717,6 @@ router.put('/review/:id', ensureAuth, async (req, res) => {
     return res.render('error/500')
   }
 })
-
-
-
 
 
 

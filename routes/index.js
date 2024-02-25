@@ -198,10 +198,10 @@ router.post('/api/favorite/:contentId', ensureAuth, async (req, res) => {
 
     await user.save();
 
-    // Send a response indicating success
+
     res.status(200).json({ success: true });
   } catch (error) {
-    // Handle the error and send an error response
+
     console.error('Error:', error);
     res.status(500).json({ success: false, error: 'Failed to update favorite status' });
   }
@@ -239,10 +239,10 @@ router.post('/api/favorite/review/:contentId',ensureAuth, async (req, res) => {
 
     await user.save();
 
-    // Send a response indicating success
+
     res.status(200).json({ success: true });
   } catch (error) {
-    // Handle the error and send an error response
+
     console.error('Error:', error);
     res.status(500).json({ success: false, error: 'Failed to update favorite status' });
   }

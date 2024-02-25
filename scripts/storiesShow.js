@@ -8,7 +8,7 @@ const cardContent = document.getElementsByClassName('card-content')
     event.preventDefault();
     const content = document.querySelector('[name="commentContent"]').value;
 
-    // Assuming you have the story ID available in a variable
+ 
     const storyId = document.getElementsByClassName('card-content')[0].id
 
     fetch(`/api/comments/${storyId}`, {
@@ -25,7 +25,7 @@ const cardContent = document.getElementsByClassName('card-content')
         return response.json();
       })
       .then(data => {
-        // Assuming you have a function to update the UI with the new comment
+     
         updateCommentsUI(data.comments);
          window.location.href = window.location.href
       })
@@ -36,8 +36,7 @@ const cardContent = document.getElementsByClassName('card-content')
   });
 
   function updateCommentsUI(comments) {
-    // Update the UI to display the new comments
-    // You might use a loop or other logic to update the comment section
+  
   }
 
 
@@ -75,13 +74,13 @@ heartIcon.className='fa fa-heart'
     if (!response.ok) {
       throw new Error('Failed to update favorite status');
     }
-    // Handle the success response if needed
+
     console.log('Favorite status updated successfully');
   })
 
 
   .catch(error => {
-    // Handle the error if needed
+
     console.error('Error:', error);
 
   });
@@ -102,13 +101,13 @@ else{
     if (!response.ok) {
       throw new Error('Failed to update favorite status');
     }
-    // Handle the success response if needed
+   
     console.log('Favorite status updated successfully');
   })
 
 
   .catch(error => {
-    // Handle the error if needed
+
     console.error('Error:', error);
 
   });
@@ -124,7 +123,7 @@ else{
 
 
 function updateFavorites() {
-  // Assuming favoriteButtons is not an array, convert it to an array
+
   const favoriteButtonsArray = Array.from(favoriteBtn);
 
   // Fetch data from the API

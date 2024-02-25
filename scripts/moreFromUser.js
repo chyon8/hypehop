@@ -57,13 +57,13 @@ heartIcon.className='fa fa-heart'
     if (!response.ok) {
       throw new Error('Failed to update favorite status');
     }
-    // Handle the success response if needed
+ 
     console.log('Favorite status updated successfully');
   })
 
 
   .catch(error => {
-    // Handle the error if needed
+
     console.error('Error:', error);
 
   });
@@ -84,13 +84,13 @@ else{
     if (!response.ok) {
       throw new Error('Failed to update favorite status');
     }
-    // Handle the success response if needed
+
     console.log('Favorite status updated successfully');
   })
 
 
   .catch(error => {
-    // Handle the error if needed
+ 
     console.error('Error:', error);
 
   });

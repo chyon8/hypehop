@@ -26,13 +26,13 @@ function prepareForm() {
         var ratingValue = parseFloat(document.getElementById('albumRating').value);
        if (ratingValue === 0) {
            alert("앨범 평점을 매겨주세요!");
-           return false; // Prevent form submission
+           return false; 
        }
            else{
        
        const bodyContent = editor.getHTML();
        document.getElementById('body').value = bodyContent;
-       return true; // Allow form submission
+       return true;
    }
 
 }
@@ -55,7 +55,7 @@ function prepareForm() {
 
 
 
-   // JavaScript function to toggle lyrics visibility
+
    function toggleLyrics(lyricsId) {
      
    
@@ -69,7 +69,7 @@ function prepareForm() {
 
 
      function toggleTrackRate() {
-       event.preventDefault()
+
    
        var trackRateElement = document.getElementById('tracks-rate');
      
@@ -81,8 +81,8 @@ function prepareForm() {
 
 
 function cancelTextarea() {
-   event.preventDefault()
-       // Handle cancel action here
+
+  
        document.getElementById('textarea-container').style.display = 'none';
    }
  
@@ -112,12 +112,12 @@ const index = Array.from(labels).indexOf(event.currentTarget.labels[0]);
 
    
 
-      // Color the clicked label and labels after it
+ 
    for (let i = labels.length - 1; i >= index; i--) {
      labels[i].style.color = 'gold';
    }
 
-   // Remove color from labels before the clicked label
+  
    for (let i = index - 1; i >= 0; i--) {
      labels[i].style.color = '';
    }
@@ -130,14 +130,14 @@ const index = Array.from(labels).indexOf(event.currentTarget.labels[0]);
 function rateTrack(stars, trackId) {
    userRating = stars;
 
-   // Add logic to update UI or perform additional actions based on the rating
+   
    console.log('User rated:', userRating);
 
 
   const trackFieldset = document.getElementById(trackId);
    const trackRatingInput = trackFieldset.querySelector('#trackRating');
 
-   // Set the value of the hidden input
+   
    trackRatingInput.value = userRating;
    
 
@@ -152,12 +152,12 @@ function rateTrack(stars, trackId) {
 console.log(labels)
    
 
-      // Color the clicked label and labels after it
+      
    for (let i = labels.length - 1; i >= index; i--) {
      labels[i].style.color = 'gold';
    }
 
-   // Remove color from labels before the clicked label
+ 
    for (let i = index - 1; i >= 0; i--) {
      labels[i].style.color = '';
    }
