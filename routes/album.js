@@ -355,7 +355,7 @@ router.get('/review', async (req, res) => {
       }
     ]);
 
-  console.log(today)
+
   
 
     res.render('album/review', {
@@ -702,6 +702,8 @@ router.get('/review/edit/:id', ensureAuth, async (req, res) => {
     const review = await Review.findOne({
       _id: req.params.id,
     }).lean()
+
+    console.log(review)
 
     if (!review) {
       return res.render('error/404')

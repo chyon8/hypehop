@@ -26,7 +26,7 @@
             <h5>앨범 평점:</h5>
 
     <fieldset class="rate">
-        <input type="hidden" id="albumRating" name="albumRating" value="0" required>
+        <input type="hidden" id="albumRating" name="albumRating" value={{review.albumRating}} required>
 
     <input onclick="rate(5)" type="radio" id="rating10a" name="rating" value="10" /><label for="rating10a" title="5 stars"></label>
     <input onclick="rate(4.5)" type="radio" id="rating9a" name="rating" value="9" /><label class="half" for="rating9a" title="4 1/2 stars"></label>
