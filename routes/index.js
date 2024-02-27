@@ -106,9 +106,6 @@ router.get('/logout', (req, res) => {
 // @route   GET /dashboard
 router.get('/dashboard', ensureAuth, async (req, res) => {
 
-  
-
-
   try {
     const stories = await Story.find({ user: req.user.id })
     .sort({ createdAt: 'desc' })
@@ -133,11 +130,9 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
 
     res.render('dashboard', {
       name: req.user.firstName,
-     
       stories,
       reviews,
       comments,
-    
       favStories,
       favReviews,
       category,
